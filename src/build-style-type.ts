@@ -109,9 +109,12 @@ function readFile(input: string, output: string) {
             return this.andWhen( !this.conditions[this.readConditionIndex]);
         }
     
-        public h = (properties?: Maquette.VNodeProperties, ...children: Maquette.VNodeChild[]): Maquette.VNode => {
+        public h = (properties?: Maquette.VNodeProperties, children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
+            }
+            if (typeof properties === "object" && properties.length > 0) {
+                return Maquette.h(this.toString(), properties);
             }
             return Maquette.h(this.toString(), properties, children);
         }
@@ -135,6 +138,9 @@ function readFile(input: string, output: string) {
         public toString = (): string => {
             if (this.classObjectMode) {
                 throw Error("You can't build a selector string when you are calling conditional methods");
+            }
+            if (this.chain.length === 1) {
+                return this.chain[0] || "div";
             }
             return this.chain.join(".");
         }
