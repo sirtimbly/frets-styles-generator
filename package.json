@@ -8,7 +8,7 @@
   "author": "Tim Bendt <biz@timbly.com>",
   "license": "MIT",
   "bin": {
-    "frets-styles-generator": "dist/build-style-type.js"
+    "frets-styles-generator": "build/main/build-style-type.js"
   },
   "scripts": {
     "info": "npm-scripts-info",
@@ -103,10 +103,12 @@
     ]
   },
   "dependencies": {
-    "tslib": "^1.6.0",
+    "camel-case": "^3.0.0",
     "commander": "^2.12.2",
-    "postcss-import": "^11.0.0",
+    "normalize-path": "^3.0.0",
     "postcss": "^6.0.13",
-    "camel-case": "^3.0.0"
+    "postcss-import": "^11.0.0",
+    "tslib": "^1.6.0",
+    "walk": "^2.3.13"
   }
 }

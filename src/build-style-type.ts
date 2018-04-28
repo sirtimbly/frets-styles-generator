@@ -9,6 +9,8 @@ import * as postcss from "postcss";
 let importer = require("postcss-import");
 let camelcase = require("camel-case");
 let program = require("commander");
+const walk = require("walk");
+const normalize = require('normalize-path');
 
 let isWatching = false;
 
@@ -20,26 +22,40 @@ let protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf(new Stri
 // console.log(protectedGetters.join(", "));
 program
 .version("0.1.2")
-.usage("[options] inputFile outputFile")
+.usage("[options] inputPath")
 .option("-w, --watch", "watch the file for changes")
 // .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
 .parse(process.argv);
 
-const inputFile = program.args[0];
-const outputFile = program.args[1];
+const inputPath = normalize(program.args[0]);
+
+// const outputFile = program.args[1];
 
 const watchMode = program.watch;
 
-readFile(inputFile, outputFile);
+console.log("reading directory " + inputPath);
+const walker = walk.walk(inputPath);
+walker.on("file", (root: any, stat: any, next: () => any) => {
+    if (!stat.isDirectory()) {
+        const extension = stat.name.split(".")[1];
+        if (extension === "css") {
+            const inputFile = stat.name.split(".")[0];
+            readFile(root + "/" + stat.name, root + `/${inputFile.split()}-styles.ts`);
+        }
+    }
+    next();
+});
 
 function readFile(input: string, output: string) {
 
     console.log("reading " + input);
-    fs.readFile(input || "./src/base.css", (err: NodeJS.ErrnoException, data: Buffer) => {
+
+    fs.readFile(input, (err: NodeJS.ErrnoException, data: Buffer) => {
         if (err) {
-            throw new Error("Couldn't read input file: " + input);
+            console.error("Couldn't read input file: " + input);
+            return;
         }
-        postcss([importer({root: "./src/"})]).process(data.toString())
+        postcss([importer({root: inputPath})]).process(data.toString())
         .then((result: postcss.Result) => {
 
             usedClasses = [];
@@ -70,18 +86,18 @@ function readFile(input: string, output: string) {
 
             }
 
-            const typeScriptClass = 
+            const typeScriptClass =
     `
     import * as Maquette from "maquette";
-    
-    export class BaseStyles {
+
+    export default class BaseStyles {
         public chain: string[];
         public conditions: boolean[] = [];
         public classProps: any = {};
         private writeConditionIndex: number = 0;
         private readConditionIndex: number = 0;
         private classObjectMode: boolean = false;
-    
+
         constructor(selector: string) {
             this.chain = new Array<string>();
             if (selector.length > 0) {
@@ -89,26 +105,26 @@ function readFile(input: string, output: string) {
             }
             return this;
         }
-    
+
         public when = (condition: boolean): BaseStyles => {
             this.classObjectMode = true;
             this.conditions[this.writeConditionIndex] = condition;
             return this;
         }
-    
+
         public andWhen = (condition: boolean): BaseStyles => {
             this.classObjectMode = true;
             this.writeConditionIndex++;
             this.readConditionIndex++;
             return this.when(condition);
-    
+
         }
-    
+
         public otherwise = (): BaseStyles => {
             this.classObjectMode = true;
             return this.andWhen( !this.conditions[this.readConditionIndex]);
         }
-    
+
         public h = (properties?: Maquette.VNodeProperties, children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
@@ -118,7 +134,7 @@ function readFile(input: string, output: string) {
             }
             return Maquette.h(this.toString(), properties, children);
         }
-    
+
         public toObj = () => {
             if (!this.classObjectMode) {
                 // tslint:disable-next-line:max-line-length
@@ -126,7 +142,7 @@ function readFile(input: string, output: string) {
             }
             return this.classProps;
         }
-    
+
         get div(): BaseStyles { return new BaseStyles("div"); }
         get span(): BaseStyles { return new BaseStyles("span"); }
         get button(): BaseStyles { return new BaseStyles("button.btn"); }
@@ -134,7 +150,7 @@ function readFile(input: string, output: string) {
         get label(): BaseStyles { return new BaseStyles("label.label"); }
         get select(): BaseStyles { return new BaseStyles("select.select"); }
         get textarea(): BaseStyles { return new BaseStyles("textarea.textarea"); }
-    
+
         public toString = (): string => {
             if (this.classObjectMode) {
                 throw Error("You can't build a selector string when you are calling conditional methods");
@@ -144,11 +160,11 @@ function readFile(input: string, output: string) {
             }
             return this.chain.join(".");
         }
-    
+
         public $ = (className: string): BaseStyles => {
             return this.add(className);
         }
-    
+
         public add = (className: string): BaseStyles => {
             if (this.classObjectMode) {
                 this.classProps[className] = this.conditions[this.readConditionIndex];
@@ -171,7 +187,7 @@ export const $ = $$();
 `;
             // console.log(typeScriptClass);
             console.log(`writing ${classProperties.length} members into ${output}`);
-            fs.writeFileSync(output || "./src/base-styles.ts", typeScriptClass);
+            fs.writeFileSync(output, typeScriptClass);
             if (watchMode && !isWatching) {
                 isWatching = true;
                 console.log("Watching for changes...");
