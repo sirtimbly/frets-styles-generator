@@ -14,14 +14,13 @@ const normalize = require('normalize-path');
 
 let isWatching = false;
 
-
 let usedClasses: string[] = [];
 let classProperties: string[] = [];
 
 let protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf(new String())).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
 // console.log(protectedGetters.join(", "));
 program
-.version("0.1.2")
+.version("0.1.4")
 .usage("[options] inputPath")
 .option("-w, --watch", "watch the file for changes")
 // .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
@@ -46,16 +45,31 @@ walker.on("file", (root: any, stat: any, next: () => any) => {
     next();
 });
 
+let customConfigObject: {path?: string[] } = {};
+
+customConfigObject = require(process.cwd() + "/postcss.config.js").plugins["postcss-import"];
+
+
+
 function readFile(input: string, output: string) {
 
     console.log("reading " + input);
-
+    const dirparts = input.split("/");
+    if (dirparts[dirparts.length - 1][0] === "_") {
+        return; // don't process files tht start with and underscore
+    }
     fs.readFile(input, (err: NodeJS.ErrnoException, data: Buffer) => {
         if (err) {
             console.error("Couldn't read input file: " + input);
             return;
         }
-        postcss([importer({root: inputPath})]).process(data.toString())
+        if (customConfigObject.path) {
+            customConfigObject.path = customConfigObject.path.map((x) => process.cwd() + "/" + x);
+        }
+        const opts = Object.assign(customConfigObject, {root: inputPath});
+        console.log("Using Importer Config: ", opts);
+
+        postcss([importer(opts)]).process(data.toString())
         .then((result: postcss.Result) => {
 
             usedClasses = [];

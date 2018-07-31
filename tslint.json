@@ -2,5 +2,9 @@
   "defaultSeverity": "warn",
   "extends": [
       "tslint:recommended"
-  ]
+  ],
+  "rules": {
+    "no-require-imports": false,
+    "no-var-requires": false
+  }
 }

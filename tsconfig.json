@@ -14,6 +14,7 @@
     "pretty": true,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": false,
+    "noImplicitAny": false,
     "lib" : [
       "es6",
       "dom"
