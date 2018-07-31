@@ -79,22 +79,25 @@ function readFile(input: string, output: string) {
                 result.root.walkRules((rule: postcss.Rule) => {
                     if (rule.selector.startsWith(".") &&
                         !rule.selector.includes(":")) {
-                        const dotless = rule.selector.substr(1); // .replace("-", "_").replace("-", "_");
-                        let classname = camelcase(dotless);
-                        if (classname.includes(".") ||
-                            dotless.includes(":") ||
-                            dotless.includes(">") ||
-                            dotless.includes("+")) {
-                            return;
-                        }
-                        if ( protectedGetters.indexOf(classname) >= 0) {
-                            classname = classname[0].toUpperCase() + classname.substr(1);
-                        }
-                        if (usedClasses.indexOf(classname) >= 0) {
-                            return;
-                        }
-                        usedClasses.push(classname);
-                        classProperties.push(`get ${classname}() { return this.add("${dotless}"); }`);
+                        const splitOnCommas = rule.selector.split(/,\s/);
+                        splitOnCommas.forEach((x: string) => {
+                            const dotless = x.substr(1); // .replace("-", "_").replace("-", "_");
+                            let classname = camelcase(dotless);
+                            if (classname.includes(".") ||
+                                dotless.includes(":") ||
+                                dotless.includes(">") ||
+                                dotless.includes("+")) {
+                                return;
+                            }
+                            if ( protectedGetters.indexOf(classname) >= 0) {
+                                classname = classname[0].toUpperCase() + classname.substr(1);
+                            }
+                            if (usedClasses.indexOf(classname) >= 0) {
+                                return;
+                            }
+                            usedClasses.push(classname);
+                            classProperties.push(`get ${classname}() { return this.add("${dotless}"); }`);
+                        });
                     }
                 });
 
