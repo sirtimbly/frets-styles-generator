@@ -26,6 +26,11 @@ program
   .usage("[options] inputPath")
   .option("-w, --watch", "watch the file for changes")
   .option(
+    "-o, --overwrite",
+    "overwrite the css files that are parsed with the PostCSS processed result",
+    false
+  )
+  .option(
     "-t, --template <path>",
     "specify a custom template file [path to a js module]"
   )
@@ -78,11 +83,11 @@ function readFile(input: string, output: string) {
       console.error("Couldn't read input file: " + input);
       return;
     }
-    if (customConfigObject && customConfigObject.path) {
-      customConfigObject.path = customConfigObject.path.map(
-        x => process.cwd() + "/" + x
-      );
-    }
+    // if (customConfigObject && customConfigObject.path) {
+    //   customConfigObject.path = customConfigObject.path.map(
+    //     x => process.cwd() + "/" + x
+    //   );
+    // }
     const opts = Object.assign(customConfigObject || {}, { root: inputPath });
     console.log("Using Importer Config: ", opts);
 
@@ -132,7 +137,9 @@ function readFile(input: string, output: string) {
         // console.log(typeScriptClass);
         console.log(`writing ${classProperties.length} members into ${output}`);
         fs.writeFileSync(output, typeScriptClass);
-        fs.writeFileSync(input, result.css);
+        if (program.overwrite) {
+          fs.writeFileSync(input, result.css);
+        }
         if (watchMode && !isWatching) {
           isWatching = true;
           console.log("Watching for changes...");
