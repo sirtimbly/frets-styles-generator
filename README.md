@@ -14,6 +14,8 @@ Uses postcss under the hood.
 
 The first argument you pass to the program will be the directory to scan for CSS files. It defaults to "./src" if you leave the argument out. Each CSS file that is found will be run through postcss (utilizing the [postcss-import](https://github.com/postcss/postcss-import) plugin by default) and then turned into a .ts file like [orginialFilename-styles.ts] based on the template specified. The default template is for [maquette](https://github.com/AFASSoftware/maquette) hyperscript functions.
 
+Optionally pass this argument `-t '[path to custom template.js file]'` to specify a custom template.
+
 Includes an optional watch flag `-w`.
 
 Includes an options flag `-o` which will overwrite the original css file using the postcss-import plugin.
