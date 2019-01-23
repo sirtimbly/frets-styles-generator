@@ -41,7 +41,7 @@ export default function(classProperties: string[]): string {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
             }
-            if (typeof properties === "object" && properties.length > 0) {
+            if (properties && typeof properties === "object" && properties.length > 0) {
                 return Maquette.h(this.toString(), properties);
             }
             return Maquette.h(this.toString(), properties, children);
@@ -56,12 +56,23 @@ export default function(classProperties: string[]): string {
         }
 
         get div(): BaseStyles { return new BaseStyles("div"); }
+        get img(): BaseStyles { return new BaseStyles("img"); }
+        get a(): BaseStyles { return new BaseStyles("a"); }
+        get p(): BaseStyles { return new BaseStyles("p"); }
+        get ul(): BaseStyles { return new BaseStyles("ul"); }
+        get ol(): BaseStyles { return new BaseStyles("ol"); }
+        get li(): BaseStyles { return new BaseStyles("li"); }
+        get section(): BaseStyles { return new BaseStyles("section"); }
+        get header(): BaseStyles { return new BaseStyles("header"); }
+        get article(): BaseStyles { return new BaseStyles("article"); }
+        get nav(): BaseStyles { return new BaseStyles("nav"); }
+        get aside(): BaseStyles { return new BaseStyles("aside"); }
         get span(): BaseStyles { return new BaseStyles("span"); }
-        get button(): BaseStyles { return new BaseStyles("button.btn"); }
-        get input(): BaseStyles { return new BaseStyles("input.input"); }
-        get label(): BaseStyles { return new BaseStyles("label.label"); }
-        get select(): BaseStyles { return new BaseStyles("select.select"); }
-        get textarea(): BaseStyles { return new BaseStyles("textarea.textarea"); }
+        get button(): BaseStyles { return new BaseStyles("button"); }
+        get input(): BaseStyles { return new BaseStyles("input"); }
+        get label(): BaseStyles { return new BaseStyles("label"); }
+        get select(): BaseStyles { return new BaseStyles("select"); }
+        get textarea(): BaseStyles { return new BaseStyles("textarea"); }
 
         public toString = (): string => {
             if (this.classObjectMode) {

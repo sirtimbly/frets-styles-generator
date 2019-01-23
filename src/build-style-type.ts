@@ -6,9 +6,9 @@
 import * as fs from "fs";
 import * as postcss from "postcss";
 
-let importer = require("postcss-import");
-let camelcase = require("camel-case");
-let program = require("commander");
+const importer = require("postcss-import");
+const camelcase = require("camel-case");
+const program = require("commander");
 const walk = require("walk");
 const normalize = require("normalize-path");
 
@@ -17,22 +17,22 @@ let isWatching = false;
 let usedClasses: string[] = [];
 let classProperties: string[] = [];
 
-let protectedGetters = Object.getOwnPropertyNames(
-  Object.getPrototypeOf(new String())
+const protectedGetters = Object.getOwnPropertyNames(
+  Object.getPrototypeOf(""),
 ).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
 // console.log(protectedGetters.join(", "));
 program
-  .version("0.1.4")
+  .version("0.2.0")
   .usage("[options] inputPath")
   .option("-w, --watch", "watch the file for changes")
   .option(
     "-o, --overwrite",
     "overwrite the css files that are parsed with the PostCSS processed result",
-    false
+    false,
   )
   .option(
     "-t, --template <path>",
-    "specify a custom template file [path to a js module]"
+    "specify a custom template file [path to a js module]",
   )
   //  .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
   .parse(process.argv);
@@ -57,20 +57,33 @@ walker.on("file", (root: any, stat: any, next: () => any) => {
       const inputFile = stat.name.split(".")[0];
       readFile(
         root + "/" + stat.name,
-        root + `/${inputFile.split()}-styles.ts`
+        root + `/${inputFile.split()}-styles.ts`,
       );
     }
   }
   next();
 });
 
-let customConfigObject: { path?: string[] } = {};
+// const customConfigObject: { path?: string[] } = {};
+let customPlugins: any[] = [];
 let postCssConfigPath = process.cwd() + "/postcss.config.js";
 
 if (!fs.existsSync(postCssConfigPath)) {
   postCssConfigPath = __dirname + "/postcss.config.js";
 }
-customConfigObject = require(postCssConfigPath).plugins["postcss-import"];
+customPlugins = require(postCssConfigPath).plugins;
+
+if (customPlugins) {
+  if (customPlugins["import"]) {
+    delete customPlugins["import"];
+  }
+  if (customPlugins["atImport"]) {
+    delete customPlugins["atImport"];
+  }
+  if (customPlugins["importer"]) {
+    delete customPlugins["importer"];
+  }
+}
 
 function readFile(input: string, output: string) {
   console.log("reading " + input);
@@ -88,11 +101,13 @@ function readFile(input: string, output: string) {
     //     x => process.cwd() + "/" + x
     //   );
     // }
-    const opts = Object.assign(customConfigObject || {}, { root: inputPath });
-    console.log("Using Importer Config: ", opts);
+    // const opts = Object.assign(customConfigObject || {}, { root: inputPath });
+    // console.log("Using Config: ", opts);
 
-    postcss([importer(opts)])
-      .process(data.toString())
+    postcss([...customPlugins, importer({ root: inputPath })])
+      .process(data.toString(), {
+        from: inputPath,
+      })
       .then((result: postcss.Result) => {
         usedClasses = [];
         classProperties = [];
@@ -119,7 +134,7 @@ function readFile(input: string, output: string) {
                 }
                 usedClasses.push(classname);
                 classProperties.push(
-                  `get ${classname}() { return this.add("${dotless}"); }`
+                  `get ${classname}() { return this.add("${dotless}"); }`,
                 );
               });
             }

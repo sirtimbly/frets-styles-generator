@@ -43,7 +43,7 @@ function default_1(classProperties) {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
             }
-            if (typeof properties === "object" && properties.length > 0) {
+            if (properties && typeof properties === "object" && properties.length > 0) {
                 return Maquette.h(this.toString(), properties);
             }
             return Maquette.h(this.toString(), properties, children);
@@ -58,12 +58,23 @@ function default_1(classProperties) {
         }
 
         get div(): BaseStyles { return new BaseStyles("div"); }
+        get img(): BaseStyles { return new BaseStyles("img"); }
+        get a(): BaseStyles { return new BaseStyles("a"); }
+        get p(): BaseStyles { return new BaseStyles("p"); }
+        get ul(): BaseStyles { return new BaseStyles("ul"); }
+        get ol(): BaseStyles { return new BaseStyles("ol"); }
+        get li(): BaseStyles { return new BaseStyles("li"); }
+        get section(): BaseStyles { return new BaseStyles("section"); }
+        get header(): BaseStyles { return new BaseStyles("header"); }
+        get article(): BaseStyles { return new BaseStyles("article"); }
+        get nav(): BaseStyles { return new BaseStyles("nav"); }
+        get aside(): BaseStyles { return new BaseStyles("aside"); }
         get span(): BaseStyles { return new BaseStyles("span"); }
-        get button(): BaseStyles { return new BaseStyles("button.btn"); }
-        get input(): BaseStyles { return new BaseStyles("input.input"); }
-        get label(): BaseStyles { return new BaseStyles("label.label"); }
-        get select(): BaseStyles { return new BaseStyles("select.select"); }
-        get textarea(): BaseStyles { return new BaseStyles("textarea.textarea"); }
+        get button(): BaseStyles { return new BaseStyles("button"); }
+        get input(): BaseStyles { return new BaseStyles("input"); }
+        get label(): BaseStyles { return new BaseStyles("label"); }
+        get select(): BaseStyles { return new BaseStyles("select"); }
+        get textarea(): BaseStyles { return new BaseStyles("textarea"); }
 
         public toString = (): string => {
             if (this.classObjectMode) {
@@ -101,4 +112,4 @@ export const $ = $$();
 `;
 }
 exports.default = default_1;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFxdWV0dGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL21hcXVldHRlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXdCLGVBQXlCO0lBQy9DLE1BQU0sQ0FBQzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7O1VBdUZDLGVBQWUsQ0FBQyxJQUFJLENBQUMsSUFBSSxDQUFDOzs7Ozs7Ozs7O0NBVW5DLENBQUM7QUFDRixDQUFDO0FBbkdELDRCQW1HQyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFxdWV0dGUuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL21hcXVldHRlLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXdCLGVBQXlCO0lBQy9DLE1BQU0sQ0FBQzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7VUFrR0MsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Q0FVbkMsQ0FBQztBQUNGLENBQUM7QUE5R0QsNEJBOEdDIn0=

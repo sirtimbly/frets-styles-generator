@@ -5,6 +5,7 @@
   ],
   "rules": {
     "no-require-imports": false,
-    "no-var-requires": false
+    "no-var-requires": false,
+    "no-console": false
   }
 }
