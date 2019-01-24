@@ -1,7 +1,7 @@
 {
   "extends": "./config/tsconfig.strict", // also available: "./config/tsconfig.strict"
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2017",
     "outDir": "build/main",
     // "rootDir": "src",
     "moduleResolution": "node",
@@ -16,7 +16,7 @@
     "allowSyntheticDefaultImports": false,
     "noImplicitAny": false,
     "lib" : [
-      "es6",
+      "es2017",
       "dom"
     ],
     "types" : [

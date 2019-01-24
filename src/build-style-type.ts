@@ -34,6 +34,12 @@ program
     "-t, --template <path>",
     "specify a custom template file [path to a js module]",
   )
+  .option(
+    "-p, --purge",
+    `Allow purgecss in your custom postcss.config.js to purge the output files.
+     Default is to skip purgecss plugin if it's in your project postcss.config`,
+    false,
+  )
   //  .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
   .parse(process.argv);
 
@@ -73,17 +79,21 @@ if (!fs.existsSync(postCssConfigPath)) {
 }
 customPlugins = require(postCssConfigPath).plugins;
 
-if (customPlugins) {
-  if (customPlugins["import"]) {
-    delete customPlugins["import"];
-  }
-  if (customPlugins["atImport"]) {
-    delete customPlugins["atImport"];
-  }
-  if (customPlugins["importer"]) {
-    delete customPlugins["importer"];
-  }
+const removeThesePlugins: string[] = ["postcss-import"];
+if (!program.purge) {
+  // we don't want purge to run by default
+  removeThesePlugins.push("postcss-plugin-purgecss");
 }
+
+customPlugins = customPlugins.filter((p) => {
+  if (p && p.postcssPlugin && removeThesePlugins.includes(p.postcssPlugin)) {
+    console.log("removing ", p.postcssPlugin);
+    return false;
+  }
+  return true;
+});
+
+// console.log(customPlugins);
 
 function readFile(input: string, output: string) {
   console.log("reading " + input);
@@ -104,7 +114,7 @@ function readFile(input: string, output: string) {
     // const opts = Object.assign(customConfigObject || {}, { root: inputPath });
     // console.log("Using Config: ", opts);
 
-    postcss([...customPlugins, importer({ root: inputPath })])
+    postcss([importer({ root: inputPath }), ...customPlugins])
       .process(data.toString(), {
         from: inputPath,
       })
