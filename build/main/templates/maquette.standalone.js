@@ -1,6 +1,8 @@
-export default function(classProperties: string[]): string {
-  return `
-  import {maquette as Maquette} from "frets";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function default_1(classProperties) {
+    return `
+    import * as Maquette from "maquette";
 
     export default class BaseStyles {
         public chain: string[];
@@ -109,3 +111,5 @@ export const $ = $$();
 
 `;
 }
+exports.default = default_1;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFxdWV0dGUuc3RhbmRhbG9uZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy90ZW1wbGF0ZXMvbWFxdWV0dGUuc3RhbmRhbG9uZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG1CQUF3QixlQUF5QjtJQUMvQyxPQUFPOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztVQWtHQyxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQzs7Ozs7Ozs7OztDQVVuQyxDQUFDO0FBQ0YsQ0FBQztBQTlHRCw0QkE4R0MifQ==

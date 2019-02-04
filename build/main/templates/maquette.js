@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 function default_1(classProperties) {
     return `
-    import * as Maquette from "maquette";
+  import {maquette as Maquette} from "frets";
 
     export default class BaseStyles {
         public chain: string[];

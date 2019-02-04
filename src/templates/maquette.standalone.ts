@@ -1,6 +1,6 @@
 export default function(classProperties: string[]): string {
   return `
-  import {maquette as Maquette} from "frets";
+    import * as Maquette from "maquette";
 
     export default class BaseStyles {
         public chain: string[];
