@@ -1,6 +1,6 @@
 {
   "name": "frets-styles-generator",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Tool that genreates a typescript class for FRETS based on a CSS file",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -85,7 +85,7 @@
     ]
   },
   "ava": {
-    "source": [
+    "sources": [
       "test/**/*.js",
       "build/**/*.js",
       "!build/**/*.spec.js"
