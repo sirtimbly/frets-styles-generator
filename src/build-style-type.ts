@@ -23,7 +23,7 @@ const protectedGetters = Object.getOwnPropertyNames(
 // console.log(protectedGetters.join(", "));
 program
   .version("0.2.0")
-  .usage("[options] inputPath")
+  .usage("inputPath [options]")
   .option("-w, --watch", "watch the file for changes")
   .option(
     "-o, --overwrite",
@@ -55,7 +55,9 @@ console.log("Using Template", templatePath);
 const watchMode = program.watch;
 
 console.log("reading directory " + inputPath);
-const walker = walk.walk(inputPath);
+const walker = walk.walk(inputPath, {
+  filters: ["node_modules"],
+});
 walker.on("file", (root: any, stat: any, next: () => any) => {
   if (!stat.isDirectory()) {
     const extension = stat.name.split(".")[1];
@@ -87,7 +89,7 @@ if (!program.purge) {
 
 customPlugins = customPlugins.filter((p) => {
   if (p && p.postcssPlugin && removeThesePlugins.includes(p.postcssPlugin)) {
-    console.log("removing ", p.postcssPlugin);
+    console.log("skipping plugin: ", p.postcssPlugin);
     return false;
   }
   return true;
