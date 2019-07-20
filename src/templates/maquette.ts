@@ -47,7 +47,7 @@ export default function(classProperties: string[]): string {
       if (children[0]
           && typeof children[0] === "object"
           && !Array.isArray(children[0])
-          && !(children[0] as VNode).vnodeSelector) {
+          && !(children[0] as Maquette.VNode).vnodeSelector) {
               return Maquette.h(this.toString()
               , children[0] as Maquette.VNodeProperties
               , children.slice(1) as Array<(string | Maquette.VNode | Maquette.VNodeChild)>);
