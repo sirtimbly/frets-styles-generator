@@ -18,7 +18,7 @@ let usedClasses: string[] = [];
 let classProperties: string[] = [];
 
 const protectedGetters = Object.getOwnPropertyNames(
-  Object.getPrototypeOf(""),
+  Object.getPrototypeOf("")
 ).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
 // console.log(protectedGetters.join(", "));
 program
@@ -28,23 +28,27 @@ program
   .option(
     "-o, --overwrite",
     "overwrite the css files that are parsed with the PostCSS processed result",
-    false,
+    false
   )
   .option(
     "-t, --template <path>",
-    "specify a custom template file [path to a js module]",
+    "specify a custom template file [path to a js module]"
   )
+  .option("-r, --react", "use the react template by default")
   .option(
     "-p, --purge",
     `Allow purgecss in your custom postcss.config.js to purge the output files.
      Default is to skip purgecss plugin if it's in your project postcss.config`,
-    false,
+    false
   )
   //  .option('-v, --verbose', 'A value that can be increased', increaseVerbosity, 0)
   .parse(process.argv);
 
 const inputPath = normalize(program.args[0] || "./src");
 let templatePath = __dirname + "/templates/maquette.js";
+if (program.react) {
+  templatePath = __dirname + "/templates/react.js";
+}
 if (program.template) {
   templatePath = normalize(process.cwd() + "/" + program.template);
 }
@@ -56,7 +60,7 @@ const watchMode = program.watch;
 
 console.log("reading directory " + inputPath);
 const walker = walk.walk(inputPath, {
-  filters: ["node_modules"],
+  filters: ["node_modules"]
 });
 walker.on("file", (root: any, stat: any, next: () => any) => {
   if (!stat.isDirectory()) {
@@ -65,7 +69,7 @@ walker.on("file", (root: any, stat: any, next: () => any) => {
       const inputFile = stat.name.split(".")[0];
       readFile(
         root + "/" + stat.name,
-        root + `/${inputFile.split()}-styles.ts`,
+        root + `/${inputFile.split()}-styles.ts`
       );
     }
   }
@@ -87,7 +91,7 @@ if (!program.purge) {
   removeThesePlugins.push("postcss-plugin-purgecss");
 }
 
-customPlugins = customPlugins.filter((p) => {
+customPlugins = customPlugins.filter(p => {
   if (p && p.postcssPlugin && removeThesePlugins.includes(p.postcssPlugin)) {
     console.log("skipping plugin: ", p.postcssPlugin);
     return false;
@@ -118,7 +122,7 @@ function readFile(input: string, output: string) {
 
     postcss([importer({ root: inputPath }), ...customPlugins])
       .process(data.toString(), {
-        from: inputPath,
+        from: inputPath
       })
       .then((result: postcss.Result) => {
         usedClasses = [];
@@ -146,7 +150,7 @@ function readFile(input: string, output: string) {
                 }
                 usedClasses.push(classname);
                 classProperties.push(
-                  `get ${classname}() { return this.add("${dotless}"); }`,
+                  `get ${classname}() { return this.add("${dotless}"); }`
                 );
               });
             }
