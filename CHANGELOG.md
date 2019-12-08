@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.3.0"></a>
+# [1.3.0](https://gitlab.com/FRETS/frets/compare/v0.2.0...v1.3.0) (2019-12-08)
+
+
+### Bug Fixes
+
+* (template) maquette vnode type ([b45eecf](https://gitlab.com/FRETS/frets/commit/b45eecf))
+
+
+### Features
+
+* (templates) BREAK: new method signature in maquette template ([45f7f32](https://gitlab.com/FRETS/frets/commit/45f7f32))
+* added a react template ([6cf831b](https://gitlab.com/FRETS/frets/commit/6cf831b))
+* added purge support updated readme ([de08808](https://gitlab.com/FRETS/frets/commit/de08808))
+* created new template and changed import on default f retstemplate ([6eb5532](https://gitlab.com/FRETS/frets/commit/6eb5532))
+
+
+
 <a name="0.2.0"></a>
 # [0.2.0](https://gitlab.com/FRETS/frets/compare/v0.1.9...v0.2.0) (2019-01-23)
 
