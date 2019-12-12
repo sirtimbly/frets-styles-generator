@@ -18,7 +18,8 @@ export const e = React.createElement;
 
 export default class BaseStyles {
   public chain: string[];
-
+  public overrideDisplayNone: boolean;
+  public overrideDisplayInherit: boolean;
   public conditions: boolean[] = [];
   public classProps: any = {};
   private readConditionIndex: number = 0;
@@ -36,6 +37,14 @@ export default class BaseStyles {
   public h = <T>(
     ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T>>
   ): ReactElement => {
+    const style = {
+      display: this.overrideDisplayNone
+        ? "none"
+        : this.overrideDisplayInherit
+        ? "inherit"
+        : undefined
+    };
+
     if (
       children[0] &&
       typeof children[0] === "object" &&
@@ -46,6 +55,7 @@ export default class BaseStyles {
         this.elementTag,
         {
           className: this.toString(),
+          style,
           ...(children[0] as HTMLAttributes<T>)
         },
         ...(children.slice(1) as Array<ReactElement>)
@@ -53,7 +63,10 @@ export default class BaseStyles {
     }
     return e(
       this.elementTag,
-      { className: this.toString() },
+      {
+        className: this.toString(),
+        style
+      },
       ...(children as Array<ReactElement>)
     );
   };
@@ -143,12 +156,21 @@ export default class BaseStyles {
     return this.add(className);
   };
 
-  public add = (className: string): BaseStyles => {
+  public add = (className: string | false): BaseStyles => {
+    if (!className) return this;
     if (this.classObjectMode) {
       this.classProps[className] = this.conditions[this.readConditionIndex];
     } else if (className.length > 0) {
       this.chain.push(className);
     }
+    return this;
+  };
+  public show = (condition: any): BaseStyles => {
+    this.overrideDisplayNone = !condition;
+    return this;
+  };
+  public hide = (condition: any): BaseStyles => {
+    this.overrideDisplayNone = condition;
     return this;
   };
   ${classProperties.join("\n")}
@@ -164,4 +186,4 @@ export const $ = $$();
 `;
 }
 exports.default = default_1;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXdCLGVBQXlCO0lBQy9DLE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQXNKTCxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQzs7Ozs7Ozs7OztDQVU3QixDQUFDO0FBQ0YsQ0FBQztBQWxLRCw0QkFrS0MifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXdCLGVBQXlCO0lBQy9DLE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUE0S0wsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Q0FVN0IsQ0FBQztBQUNGLENBQUM7QUF4TEQsNEJBd0xDIn0=

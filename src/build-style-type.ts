@@ -129,19 +129,25 @@ function readFile(input: string, output: string) {
         classProperties = [];
         if (result && result.root) {
           result.root.walkRules((rule: postcss.Rule) => {
-            if (rule.selector.startsWith(".") && !rule.selector.includes(":")) {
+            if (
+              rule.selector.startsWith(".") &&
+              (rule.selector.startsWith(".hover") ||
+                !rule.selector.includes(":"))
+            ) {
               const splitOnCommas = rule.selector.split(/,\s/);
               splitOnCommas.forEach((x: string) => {
-                const dotless = x.substr(1); // .replace("-", "_").replace("-", "_");
+                let dotless = x.substr(1); // .replace("-", "_").replace("-", "_");
                 let classname = camelcase(dotless);
                 if (
                   classname.includes(".") ||
-                  dotless.includes(":") ||
+                  // (dotless.includes(":") && !dotless.startsWith(".hover")) ||
                   dotless.includes(">") ||
                   dotless.includes("+")
                 ) {
                   return;
                 }
+                classname = classname.replace(/Hover$/, "");
+                dotless = dotless.replace(/:hover$/, "");
                 if (protectedGetters.indexOf(classname) >= 0) {
                   classname = classname[0].toUpperCase() + classname.substr(1);
                 }

@@ -39,7 +39,8 @@ function default_1(classProperties) {
             return this.andWhen( !this.conditions[this.readConditionIndex]);
         }
 
-        public h = (properties?: Maquette.VNodeProperties, children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
+        public h = (properties?: Maquette.VNodeProperties,
+            children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
             }
@@ -52,7 +53,7 @@ function default_1(classProperties) {
         public toObj = () => {
             if (!this.classObjectMode) {
                 // tslint:disable-next-line:max-line-length
-                throw Error("You need to call at least one conditional method in order to use this as a classes object generator");
+                throw Error("Call at least one conditional method to use this as a classes object generator");
             }
             return this.classProps;
         }
@@ -112,4 +113,4 @@ export const $ = $$();
 `;
 }
 exports.default = default_1;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFxdWV0dGUuc3RhbmRhbG9uZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy90ZW1wbGF0ZXMvbWFxdWV0dGUuc3RhbmRhbG9uZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG1CQUF3QixlQUF5QjtJQUMvQyxPQUFPOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztVQWtHQyxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQzs7Ozs7Ozs7OztDQVVuQyxDQUFDO0FBQ0YsQ0FBQztBQTlHRCw0QkE4R0MifQ==
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoibWFxdWV0dGUuc3RhbmRhbG9uZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy90ZW1wbGF0ZXMvbWFxdWV0dGUuc3RhbmRhbG9uZS50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiOztBQUFBLG1CQUF3QixlQUF5QjtJQUMvQyxPQUFPOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7VUFtR0MsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Q0FVbkMsQ0FBQztBQUNGLENBQUM7QUEvR0QsNEJBK0dDIn0=

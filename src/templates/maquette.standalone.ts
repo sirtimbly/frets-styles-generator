@@ -37,7 +37,8 @@ export default function(classProperties: string[]): string {
             return this.andWhen( !this.conditions[this.readConditionIndex]);
         }
 
-        public h = (properties?: Maquette.VNodeProperties, children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
+        public h = (properties?: Maquette.VNodeProperties,
+            children?: (string | Maquette.VNode | Maquette.VNodeChild)[]): Maquette.VNode => {
             if (this.classObjectMode) {
                 throw Error("You can't build a vnode when you are using this for building a classes object");
             }
@@ -50,7 +51,7 @@ export default function(classProperties: string[]): string {
         public toObj = () => {
             if (!this.classObjectMode) {
                 // tslint:disable-next-line:max-line-length
-                throw Error("You need to call at least one conditional method in order to use this as a classes object generator");
+                throw Error("Call at least one conditional method to use this as a classes object generator");
             }
             return this.classProps;
         }
