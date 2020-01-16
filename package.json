@@ -1,6 +1,6 @@
 {
   "name": "frets-styles-generator",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Tool that genreates a typescript class for FRETS based on a CSS file",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -20,7 +20,7 @@
     "test": "yarn lint",
     "watch": "yarn build && yarn build:tests -- --no-browser && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'npm run --silent build:tests -- -w --no-browser' 'sleepms 2000 && ava --watch'",
     "changelog": "standard-version",
-    "release": "yarn reset && yarn test && yarn docs:publish && yarn changelog",
+    "release": "yarn reset && yarn test && yarn changelog",
     "reset": "git clean -dfx && git reset --hard && yarn"
   },
   "scripts-info": {
