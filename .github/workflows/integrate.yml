@@ -4,12 +4,13 @@ on:
   pull_request:
     branches: [master]
 
-strategy:
-  matrix:
-    node: [10, 12, 14]
+
 
 jobs:
   test_pull_request:
+    strategy:
+      matrix:
+        node: [10, 12, 14]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
