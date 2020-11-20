@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://gitlab.com/FRETS/frets/compare/v1.4.1...v2.0.0) (2020-11-20)
+
+
+* Merge pull request #13 from sirtimbly/upgrade-postcss ([cbe2d87](https://gitlab.com/FRETS/frets/commit/cbe2d87))
+
+
+### Bug Fixes
+
+* react template excludes falsey children ([d5fe210](https://gitlab.com/FRETS/frets/commit/d5fe210))
+
+
+### BREAKING CHANGES
+
+* upgraded to postcss 8
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://gitlab.com/FRETS/frets/compare/v1.4.0...v1.4.1) (2020-01-16)
 
