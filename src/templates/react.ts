@@ -1,4 +1,4 @@
-export default function(classProperties: string[]): string {
+export default function (classProperties: string[]): string {
   return `
 import React, {
   ReactNode,
@@ -33,7 +33,7 @@ export default class BaseStyles {
 
   // The first element in the arguments might be a attributes object, or they might all be Nodes
   public h = <T>(
-    ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T>>
+    ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T> | Boolean>
   ): ReactElement => {
     const style = {
       display: this.overrideDisplayNone
@@ -56,7 +56,7 @@ export default class BaseStyles {
           style,
           ...(children[0] as HTMLAttributes<T>)
         },
-        ...(children.slice(1) as Array<ReactElement>)
+        ...(children.slice(1).filter(Boolean) as Array<ReactElement>)
       );
     }
     return e(
@@ -65,7 +65,7 @@ export default class BaseStyles {
         className: this.toString(),
         style
       },
-      ...(children as Array<ReactElement>)
+      ...(children.filter(Boolean) as Array<ReactElement>)
     );
   };
 
