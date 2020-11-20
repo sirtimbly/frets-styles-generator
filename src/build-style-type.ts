@@ -4,7 +4,7 @@
 // let postcssConfig = require("./postcss.config");
 
 import * as fs from "fs";
-import * as postcss from "postcss";
+import postcss, { Result, Rule } from "postcss";
 
 const importer = require("postcss-import");
 const camelcase = require("camel-case");
@@ -60,7 +60,7 @@ const watchMode = program.watch;
 
 console.log("reading directory " + inputPath);
 const walker = walk.walk(inputPath, {
-  filters: ["node_modules"]
+  filters: ["node_modules"],
 });
 walker.on("file", (root: any, stat: any, next: () => any) => {
   if (!stat.isDirectory()) {
@@ -91,7 +91,7 @@ if (!program.purge) {
   removeThesePlugins.push("postcss-plugin-purgecss");
 }
 
-customPlugins = customPlugins.filter(p => {
+customPlugins = customPlugins.filter((p) => {
   if (p && p.postcssPlugin && removeThesePlugins.includes(p.postcssPlugin)) {
     console.log("skipping plugin: ", p.postcssPlugin);
     return false;
@@ -122,13 +122,13 @@ function readFile(input: string, output: string) {
 
     postcss([importer({ root: inputPath }), ...customPlugins])
       .process(data.toString(), {
-        from: inputPath
+        from: inputPath,
       })
-      .then((result: postcss.Result) => {
+      .then((result: Result) => {
         usedClasses = [];
         classProperties = [];
         if (result && result.root) {
-          result.root.walkRules((rule: postcss.Rule) => {
+          result.root.walkRules((rule: Rule) => {
             if (
               rule.selector.startsWith(".") &&
               (rule.selector.startsWith(".hover") ||
