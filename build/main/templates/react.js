@@ -25,17 +25,19 @@ export default class BaseStyles {
   private readConditionIndex: number = 0;
   private classObjectMode: boolean = false;
 
-  constructor(selector: string) {
-    this.chain = new Array<string>();
-    if (selector.length > 0) {
-      this.chain.push(selector);
+   constructor(selector: string) {
+    this.chain = new Array<string>()
+    if (typeof selector === 'string') {
+      const parts = selector.split('.')
+      this.chain.push(...parts)
     }
-    return this;
+    return this
   }
+
 
   // The first element in the arguments might be a attributes object, or they might all be Nodes
   public h = <T>(
-    ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T>>
+    ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T> | Boolean>
   ): ReactElement => {
     const style = {
       display: this.overrideDisplayNone
@@ -58,7 +60,7 @@ export default class BaseStyles {
           style,
           ...(children[0] as HTMLAttributes<T>)
         },
-        ...(children.slice(1) as Array<ReactElement>)
+        ...(children.slice(1).filter(Boolean) as Array<ReactElement>)
       );
     }
     return e(
@@ -67,7 +69,7 @@ export default class BaseStyles {
         className: this.toString(),
         style
       },
-      ...(children as Array<ReactElement>)
+      ...(children.filter(Boolean) as Array<ReactElement>)
     );
   };
 
@@ -140,6 +142,13 @@ export default class BaseStyles {
     return new BaseStyles("textarea");
   }
 
+  public toSelector = (): string => {
+    if (this.chain.length === 1) {
+      return this.chain[0] || 'div'
+    }
+    return this.chain.join('.')
+  }
+
   public toString = (): string => {
     if (this.classObjectMode) {
       throw Error(
@@ -155,6 +164,15 @@ export default class BaseStyles {
   public $ = (className: string): BaseStyles => {
     return this.add(className);
   };
+
+  public addSelectors = (selector: string) => {
+    if (typeof selector === 'string') {
+      const parts = selector.split('.')
+      this.chain.push(...parts)
+    }
+    return this
+  }
+
 
   public add = (className: string | false): BaseStyles => {
     if (!className) return this;
@@ -180,10 +198,19 @@ export default class BaseStyles {
 export const $$ = (selector?: string): BaseStyles =>  {
     return new BaseStyles("" + selector || "");
 };
-
+export function $onClick<T>(fn: React.MouseEventHandler) {
+  return (child: BaseStyles, ...children: BaseStyleArgs<T>) => {
+    return children[0] &&
+      typeof children[0] === 'object' &&
+      !Array.isArray(children[0]) &&
+      !(children[0] as ReactElement).type
+      ? child.h({ ...children[0], onClick: fn }, ...children.slice(1))
+      : child.h({ onClick: fn }, ...children)
+  }
+}
 export const $ = $$();
 
 `;
 }
 exports.default = default_1;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXdCLGVBQXlCO0lBQy9DLE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUE0S0wsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Q0FVN0IsQ0FBQztBQUNGLENBQUM7QUF4TEQsNEJBd0xDIn0=
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXlCLGVBQXlCO0lBQ2hELE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUE4TEwsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Q0FtQjdCLENBQUM7QUFDRixDQUFDO0FBbk5ELDRCQW1OQyJ9
