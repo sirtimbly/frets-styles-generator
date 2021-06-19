@@ -1,10 +1,10 @@
 {
   "name": "frets-styles-generator",
-  "version": "2.0.1",
-  "description": "Tool that genreates a typescript class for FRETS based on a CSS file",
+  "version": "0.0.0",
+  "description": "Tool that generates a Typescript class for hyperscript functions based on a CSS file",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
-  "repository": "https://gitlab.com/FRETS/frets.git",
+  "repository": "https://github.com/sirtimbly/frets-styles-generator.git",
   "author": "Tim Bendt <biz@timbly.com>",
   "license": "MIT",
   "bin": {
@@ -12,16 +12,16 @@
   },
   "scripts": {
     "info": "npm-scripts-info",
-    "build": "trash build && yarn build:main",
+    "build": "trash build && npm run build:main",
     "build:main": "tsc -p tsconfig.json",
     "build:tests": "trash test && node config/exports/build-tests.js",
     "lint": "tslint --project . --type-check src/**/*.ts",
-    "unit": "yarn build && yarn build:tests && ava",
-    "test": "yarn lint",
-    "watch": "yarn build && yarn build:tests -- --no-browser && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'npm run --silent build:tests -- -w --no-browser' 'sleepms 2000 && ava --watch'",
+    "unit": "npm run build && npm run build:tests && ava",
+    "test": "npm run lint",
+    "watch": "npm run build && npm run build:tests -- --no-browser && concurrently -r --kill-others 'npm run --silent build:main -- -w' 'npm run --silent build:tests -- -w --no-browser' 'sleepms 2000 && ava --watch'",
     "changelog": "standard-version",
-    "release": "yarn reset && yarn test && yarn changelog",
-    "reset": "git clean -dfx && git reset --hard && yarn"
+    "release": "npm run reset && npm run test && npm run changelog",
+    "reset": "git clean -dfx && git reset --hard && npm install"
   },
   "scripts-info": {
     "info": "Display information about the scripts",
@@ -43,7 +43,7 @@
   },
   "devDependencies": {
     "@semantic-release/commit-analyzer": "^8.0.1",
-    "@semantic-release/npm": "^7.0.5",
+    "@semantic-release/npm": "^7.1.3",
     "@semantic-release/release-notes-generator": "^9.0.1",
     "@types/node": "^8.0.4",
     "ava": "^1.1.0",
@@ -53,9 +53,9 @@
     "mkdirp": "^0.5.1",
     "npm-scripts-info": "^0.3.9",
     "opn-cli": "^4.0.0",
+    "semantic-release": "^17.4.4",
     "sleep-ms": "^2.0.1",
     "standard-version": "^8.0.1",
-    "semantic-release": "^17.1.1",
     "trash-cli": "^1.4.0",
     "tslint": "^5.12.1",
     "tslint-config-standard": "^8.0.1",
@@ -107,7 +107,7 @@
     "camel-case": "^3.0.0",
     "commander": "^2.19.0",
     "normalize-path": "^3.0.0",
-    "postcss": "^8.1.8",
+    "postcss": "^8.3.5",
     "postcss-import": "^13.0.0",
     "tslib": "^1.9.3",
     "walk": "^2.3.14"
