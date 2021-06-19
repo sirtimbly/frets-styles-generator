@@ -12,6 +12,9 @@ type hFn<T> = (
   children: Array<ReactNode | AllHTMLAttributes<T>>
 ) => ReactElement;
 
+export type BaseStyleArgs<T> = Array<
+  ReactElement | string | AllHTMLAttributes<T> | Props<T> | Boolean
+>
 export const e = React.createElement;
 
 export default class BaseStyles {
@@ -35,7 +38,7 @@ export default class BaseStyles {
 
   // The first element in the arguments might be a attributes object, or they might all be Nodes
   public h = <T>(
-    ...children: Array<ReactElement | string | AllHTMLAttributes<T> | Props<T> | Boolean>
+    ...children: BaseStyleArgs<T>
   ): ReactElement => {
     const style = {
       display: this.overrideDisplayNone
