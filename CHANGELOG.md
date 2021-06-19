@@ -1,6 +1,8 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [2.0.1](https://gitlab.com/FRETS/frets/compare/v2.0.0...v2.0.1) (2021-06-19)
 
 <a name="2.0.0"></a>
 # [2.0.0](https://gitlab.com/FRETS/frets/compare/v1.4.1...v2.0.0) (2020-11-20)
