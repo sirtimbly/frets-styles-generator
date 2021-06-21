@@ -194,22 +194,106 @@ export default class BaseStyles {
   };
   ${classProperties.join("\n")}
 
+
+  public injectProps<T>(props: HTMLAttributes<T>) {
+    const oldFn = this.h
+    const newFn = (...children: BaseStyleArgs<T>) => {
+      const firstChild = children[0]
+      const firstChildIsProps = Boolean(
+        firstChild &&
+          typeof firstChild === 'object' &&
+          !Array.isArray(children[0]) &&
+          !(children[0] as ReactElement).type
+      )
+      // const hyperScriptFnArgs: BaseStyleArgs<T> = [props, ...children]
+      const hyperScriptFnArgs: BaseStyleArgs<T> = firstChildIsProps
+        ? [
+            {
+              ...(props as HTMLAttributes<T>),
+              ...(firstChild as HTMLAttributes<T>),
+            },
+            ...children.slice(1),
+          ]
+        : [{ ...props }, ...children]
+      return oldFn(...hyperScriptFnArgs)
+    }
+    this.h = newFn as typeof oldFn
+    return this
+  }
+
+  public beforeClick<T>(handler: <T>(e: React.MouseEvent<T>) => void) {
+    const oldFn = this.h
+    this.h = <T>(...children: BaseStyleArgs<T>) => {
+      const firstChild = children[0]
+      const firstChildIsProps = Boolean(
+        firstChild &&
+          typeof firstChild === 'object' &&
+          !Array.isArray(children[0]) &&
+          !(children[0] as ReactElement).type
+      )
+
+      let newClick
+      if (
+        firstChildIsProps &&
+        (firstChild as React.AllHTMLAttributes<T>).onClick
+      ) {
+        newClick = (firstChild as React.AllHTMLAttributes<T>).onClick
+      }
+      const clickProps: Partial<
+        AllHTMLAttributes<T> | React.ClassAttributes<T>
+      > = {
+        onClick: (evt) => {
+          handler(evt)
+          if (newClick) {
+            newClick(evt)
+          }
+        },
+      }
+      const hyperScriptFnArgs = firstChildIsProps
+        ? [
+            {
+              firstChild,
+              ...clickProps,
+            },
+            ...children.slice(1),
+          ]
+        : [{ ...clickProps }, ...children]
+      return oldFn(...hyperScriptFnArgs)
+    }
+    return this
+  }
 }
 
-export const $$ = (selector?: string): BaseStyles =>  {
-    return new BaseStyles("" + selector || "");
-};
-export function $onClick<T>(fn: React.MouseEventHandler) {
+export const $$ = (selector?: string): BaseStyles => {
+  return new BaseStyles('' + selector || '')
+}
+export function $onClick<T>(fn: React.MouseEventHandler<T>) {
   return (child: BaseStyles, ...children: BaseStyleArgs<T>) => {
-    return children[0] &&
-      typeof children[0] === 'object' &&
-      !Array.isArray(children[0]) &&
-      !(children[0] as ReactElement).type
-      ? child.h({ ...children[0], onClick: fn }, ...children.slice(1))
+    const firstChild = children[0]
+    const firstChildIsProps = Boolean(
+      firstChild &&
+        typeof firstChild === 'object' &&
+        !Array.isArray(children[0]) &&
+        !(children[0] as ReactElement).type
+    )
+    return firstChildIsProps
+      ? child.h(
+          { ...(firstChild as React.AllHTMLAttributes<T>), onClick: fn },
+          ...children.slice(1)
+        )
       : child.h({ onClick: fn }, ...children)
   }
 }
-export const $ = $$();
+
+export function $formOnSubmit<T>(fn: (e?: React.FormEvent<any>) => void) {
+  return $$('form').injectProps({
+    onSubmit: (e) => {
+      e.preventDefault()
+      fn(e)
+    },
+  })
+}
+export const $ = $$()
 
 `;
 }
