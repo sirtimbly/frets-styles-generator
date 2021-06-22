@@ -5,7 +5,6 @@ function default_1(classProperties) {
 import React, {
   ReactNode,
   ReactElement,
-  HTMLAttributes,
   AllHTMLAttributes,
   Props
 } from "react";
@@ -61,7 +60,7 @@ export default class BaseStyles {
         {
           className: this.toString(),
           style,
-          ...(children[0] as HTMLAttributes<T>)
+          ...(children[0] as AllHTMLAttributes<T>)
         },
         ...(children.slice(1).filter(Boolean) as Array<ReactElement>)
       );
@@ -197,7 +196,7 @@ export default class BaseStyles {
   ${classProperties.join("\n")}
 
 
-  public injectProps<T>(props: HTMLAttributes<T>) {
+  public injectProps<T>(props: AllHTMLAttributes<T>) {
     const oldFn = this.h
     const newFn = (...children: BaseStyleArgs<T>) => {
       const firstChild = children[0]
@@ -211,8 +210,8 @@ export default class BaseStyles {
       const hyperScriptFnArgs: BaseStyleArgs<T> = firstChildIsProps
         ? [
             {
-              ...(props as HTMLAttributes<T>),
-              ...(firstChild as HTMLAttributes<T>),
+              ...(props as AllHTMLAttributes<T>),
+              ...(firstChild as AllHTMLAttributes<T>),
             },
             ...children.slice(1),
           ]
@@ -300,4 +299,4 @@ export const $ = $$()
 `;
 }
 exports.default = default_1;
-//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXlCLGVBQXlCO0lBQ2hELE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7SUFpTUwsZUFBZSxDQUFDLElBQUksQ0FBQyxJQUFJLENBQUM7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Q0F1RzdCLENBQUM7QUFDRixDQUFDO0FBMVNELDRCQTBTQyJ9
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVhY3QuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi8uLi8uLi9zcmMvdGVtcGxhdGVzL3JlYWN0LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7O0FBQUEsbUJBQXlCLGVBQXlCO0lBQ2hELE9BQU87Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztJQWdNTCxlQUFlLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztDQXVHN0IsQ0FBQztBQUNGLENBQUM7QUF6U0QsNEJBeVNDIn0=
