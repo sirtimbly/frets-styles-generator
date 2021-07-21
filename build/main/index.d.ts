@@ -1,2 +1,2 @@
-import readFile from "./processFile";
-export { readFile };
+import readFile, { GetResultProcessor } from "./processFile";
+export { readFile, GetResultProcessor };

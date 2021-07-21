@@ -1,11 +1,8 @@
 #! /usr/bin/env node
-// let fs = require("fs");
-
-// let postcssConfig = require("./postcss.config");
 
 import * as fs from "fs";
 import readFile from "./processFile";
-
+const importer = require("postcss-import");
 const program = require("commander");
 const walk = require("walk");
 const normalize = require("normalize-path");
@@ -59,7 +56,10 @@ let postCssConfigPath = process.cwd() + "/postcss.config.js";
 if (!fs.existsSync(postCssConfigPath)) {
   postCssConfigPath = __dirname + "/postcss.config.js";
 }
-customPlugins = require(postCssConfigPath).plugins;
+customPlugins = [
+  importer({ root: inputPath }),
+  ...require(postCssConfigPath).plugins,
+];
 
 const removeThesePlugins: string[] = ["postcss-import"];
 if (!program.purge) {
@@ -82,17 +82,15 @@ walker.on("file", (root: any, stat: any, next: () => any) => {
     const extension = stat.name.split(".")[1];
     if (extension === "css") {
       const inputFile = stat.name.split(".")[0];
-      readFile(
-        root + "/" + stat.name,
-        root + `/${inputFile.split()}-styles.ts`,
-        {
-          templatePath: cliTemplatePath,
-          customPlugins,
-          inputPath,
-          watchMode,
-          overwrite: program.overwrite,
-        }
-      );
+      readFile({
+        input: root + "/" + stat.name,
+        output: root + `/${inputFile.split()}-styles.ts`,
+        templatePath: cliTemplatePath,
+        customPlugins,
+        inputPath,
+        watchMode,
+        overwrite: program.overwrite,
+      });
     }
   }
   next();
