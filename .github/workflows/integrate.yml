@@ -8,7 +8,7 @@ jobs:
   test_pull_request:
     strategy:
       matrix:
-        node: [10, 12, 14]
+        node: [12, 14, 16]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
