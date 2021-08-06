@@ -6,6 +6,7 @@ specifiers:
   '@semantic-release/release-notes-generator': ^9.0.1
   '@types/cpx': ^1.5.2
   '@types/node': ^12.0.0
+  '@types/walk': ^2.3.1
   '@typescript-eslint/eslint-plugin': ^4.28.4
   '@typescript-eslint/parser': ^4.28.4
   ava: ^1.1.0
@@ -14,6 +15,7 @@ specifiers:
   commander: ^2.19.0
   concurrently: ^4.1.0
   cpx: ^1.5.0
+  esbuild: ^0.12.18
   eslint: 7.31.0
   eslint-config-prettier: 8.3.0
   eslint-plugin-import: 2.23.4
@@ -30,6 +32,7 @@ specifiers:
   postcss: ^8.3.5
   postcss-import: ^13.0.0
   prettier: 2.3.0
+  rimraf: ^3.0.2
   semantic-release: ^17.4.4
   serve-http: ^1.0.6
   sleep-ms: ^2.0.1
@@ -40,6 +43,7 @@ specifiers:
   walk: ^2.3.14
 
 dependencies:
+  '@types/walk': 2.3.1
   camel-case: 3.0.0
   commander: 2.20.3
   normalize-path: 3.0.0
@@ -61,6 +65,7 @@ devDependencies:
   baretest: 2.0.0
   concurrently: 4.1.2
   cpx: 1.5.0
+  esbuild: 0.12.18
   eslint: 7.31.0
   eslint-config-prettier: 8.3.0_eslint@7.31.0
   eslint-plugin-import: 2.23.4_eslint@7.31.0
@@ -74,6 +79,7 @@ devDependencies:
   npm-scripts-info: 0.3.9
   opn-cli: 4.1.0
   prettier: 2.3.0
+  rimraf: 3.0.2
   semantic-release: 17.4.4
   sleep-ms: 2.0.1
   standard-version: 8.0.2
@@ -841,7 +847,6 @@ packages:
 
   /@types/node/12.20.19:
     resolution: {integrity: sha512-niAuZrwrjKck4+XhoCw6AAVQBENHftpXw9F4ryk66fTgYaKQ53R4FI7c9vUGGw5vQis1HKBHDR1gcYI/Bq1xvw==}
-    dev: true
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -854,6 +859,12 @@ packages:
   /@types/retry/0.12.1:
     resolution: {integrity: sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==}
     dev: true
+
+  /@types/walk/2.3.1:
+    resolution: {integrity: sha512-gEH9G1wA3xKfAgQmJJA/Kdk5Ne9xI1Gn/q2Dwfl06m7IsgEBUUBVzSVfbi9zf6KYL4xfA6tFtzOQk9p0vBzLDg==}
+    dependencies:
+      '@types/node': 12.20.19
+    dev: false
 
   /@typescript-eslint/eslint-plugin/4.29.0_aaef56dbe35bc92c44f3d75d8a387c3b:
     resolution: {integrity: sha512-eiREtqWRZ8aVJcNru7cT/AMVnYd9a2UHsfZT8MR1dW3UUEg6jDv9EQ9Cq4CUPZesyQ58YUpoAADGv71jY8RwgA==}
@@ -2581,6 +2592,12 @@ packages:
 
   /esbuild/0.11.23:
     resolution: {integrity: sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==}
+    hasBin: true
+    requiresBuild: true
+    dev: true
+
+  /esbuild/0.12.18:
+    resolution: {integrity: sha512-arWhBQSy+oiBAp8VRRCFvAU+3jyf0gGacABLO3haMHboXCDjzq4WUqyQklst2XRuFS8MXgap+9uvODqj9Iygpg==}
     hasBin: true
     requiresBuild: true
     dev: true

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import path from "path";
+import * as path from "path";
 import { build, cliopts, BuildConfig, glob } from "estrella";
 
-export function subdir(name) {
+export function subdir(name: string): string {
   return path.join(process.cwd(), name);
 }
 // for configuring this script's command line arguments, see also
@@ -16,9 +16,6 @@ const [opts] = cliopts.parse(
 // set up all the directories we want to work in
 const src = subdir(opts.sourcedir || "src/");
 const output = subdir(opts.outdir || "build/main/");
-const staticDir = subdir("static/");
-const cssFilter = /\.css$/i;
-const staticFilter = /\.html$/i;
 
 // the es-build options we will apply to your typescript
 const buildOpts: BuildConfig = {

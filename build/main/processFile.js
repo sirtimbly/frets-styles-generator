@@ -32,8 +32,8 @@ const protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf("")).c
 async function readFile(opts) {
   const {customPlugins, inputPath, input} = opts;
   console.log("reading " + input);
-  const dirparts = input.split("/");
-  if (dirparts[dirparts.length - 1][0] === "_") {
+  const directoryParts = input.split("/");
+  if (directoryParts[directoryParts.length - 1][0] === "_") {
     return;
   }
   return (0, import_postcss.default)(customPlugins).process(fs.readFileSync(input), {
@@ -48,8 +48,8 @@ async function readFile(opts) {
 const GetResultProcessor = (opts) => {
   const {templatePath, watchMode, overwrite, debug, output, input} = opts;
   let isWatching = false;
-  let usedClasses = [];
-  let classProperties = [];
+  const usedClasses = [];
+  const classProperties = [];
   const time1 = new Date().getTime();
   return (result) => {
     if (result && result.root) {
@@ -57,21 +57,21 @@ const GetResultProcessor = (opts) => {
         if (rule.selector.startsWith(".") && (rule.selector.startsWith(".hover") || !rule.selector.includes(":"))) {
           const splitOnCommas = rule.selector.split(/,\s/);
           splitOnCommas.forEach((x) => {
-            let dotless = x.substr(1);
-            let classname = camelcase(dotless);
-            if (classname.includes(".") || dotless.includes(">") || dotless.includes("+")) {
+            let dotLess = x.substr(1);
+            let className = camelcase(dotLess);
+            if (className.includes(".") || dotLess.includes(">") || dotLess.includes("+")) {
               return;
             }
-            classname = classname.replace(/Hover$/, "");
-            dotless = dotless.replace(/:hover$/, "");
-            if (protectedGetters.indexOf(classname) >= 0) {
-              classname = "_" + classname;
+            className = className.replace(/Hover$/, "");
+            dotLess = dotLess.replace(/:hover$/, "");
+            if (protectedGetters.indexOf(className) >= 0) {
+              className = "_" + className;
             }
-            if (usedClasses.indexOf(classname) >= 0) {
+            if (usedClasses.indexOf(className) >= 0) {
               return;
             }
-            usedClasses.push(classname);
-            classProperties.push(`get ${classname}() { return this.add("${dotless}"); }`);
+            usedClasses.push(className);
+            classProperties.push(`get ${className}() { return this.add("${dotLess}"); }`);
           });
         }
       });
@@ -80,12 +80,12 @@ const GetResultProcessor = (opts) => {
       }
     }
     let typeScriptClass = "";
-    let templFn;
+    let templateFn;
     try {
-      templFn = require(templatePath).default;
-      typeScriptClass = templFn(classProperties);
+      templateFn = require(templatePath).default;
+      typeScriptClass = templateFn(classProperties);
     } catch (error) {
-      console.error("Couldnt' load or use template", error);
+      console.error("Couldn't load or use template", error);
     }
     if (debug) {
       console.log(`\u{1F550} templating complete: ${new Date().getTime() - time1}ms`);

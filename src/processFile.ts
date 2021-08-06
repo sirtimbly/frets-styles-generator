@@ -1,8 +1,8 @@
 import * as fs from "fs";
 // const readFileAsync = fs.promises.readFile;
 // const importer = require("postcss-import");
-import postcss, { Result, Rule } from "postcss";
-const camelcase = require("camel-case");
+import postcss, { Result, Rule, AcceptedPlugin } from "postcss";
+import camelcase = require("camel-case");
 const protectedGetters = Object.getOwnPropertyNames(
   Object.getPrototypeOf("")
 ).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
@@ -11,18 +11,18 @@ export type TOpts = {
   input: string;
   output: string;
   templatePath: string;
-  customPlugins: any[];
+  customPlugins: AcceptedPlugin[];
   inputPath: string;
   overwrite: boolean;
   watchMode?: boolean;
   debug?: boolean;
 };
-export default async function readFile(opts: TOpts) {
+export default async function readFile(opts: TOpts): Promise<void> {
   const { customPlugins, inputPath, input } = opts;
 
   console.log("reading " + input);
-  const dirparts = input.split("/");
-  if (dirparts[dirparts.length - 1][0] === "_") {
+  const directoryParts = input.split("/");
+  if (directoryParts[directoryParts.length - 1][0] === "_") {
     return; // don't process files tht start with and underscore
   }
 
@@ -39,13 +39,14 @@ export default async function readFile(opts: TOpts) {
     });
 }
 
-export const GetResultProcessor = (opts: TOpts) => {
+type TProcessor = (result: Result) => void;
+export const GetResultProcessor = (opts: TOpts): TProcessor => {
   const { templatePath, watchMode, overwrite, debug, output, input } = opts;
 
   let isWatching = false;
 
-  let usedClasses: string[] = [];
-  let classProperties: string[] = [];
+  const usedClasses: string[] = [];
+  const classProperties: string[] = [];
 
   const time1 = new Date().getTime();
   return (result: Result) => {
@@ -57,26 +58,26 @@ export const GetResultProcessor = (opts: TOpts) => {
         ) {
           const splitOnCommas = rule.selector.split(/,\s/);
           splitOnCommas.forEach((x: string) => {
-            let dotless = x.substr(1);
-            let classname = camelcase(dotless);
+            let dotLess = x.substr(1);
+            let className = camelcase(dotLess);
             if (
-              classname.includes(".") ||
-              dotless.includes(">") ||
-              dotless.includes("+")
+              className.includes(".") ||
+              dotLess.includes(">") ||
+              dotLess.includes("+")
             ) {
               return;
             }
-            classname = classname.replace(/Hover$/, "");
-            dotless = dotless.replace(/:hover$/, "");
-            if (protectedGetters.indexOf(classname) >= 0) {
-              classname = "_" + classname;
+            className = className.replace(/Hover$/, "");
+            dotLess = dotLess.replace(/:hover$/, "");
+            if (protectedGetters.indexOf(className) >= 0) {
+              className = "_" + className;
             }
-            if (usedClasses.indexOf(classname) >= 0) {
+            if (usedClasses.indexOf(className) >= 0) {
               return;
             }
-            usedClasses.push(classname);
+            usedClasses.push(className);
             classProperties.push(
-              `get ${classname}() { return this.add("${dotless}"); }`
+              `get ${className}() { return this.add("${dotLess}"); }`
             );
           });
         }
@@ -88,13 +89,13 @@ export const GetResultProcessor = (opts: TOpts) => {
       }
     }
     let typeScriptClass = "";
-    let templFn: (props: string[]) => string;
+    let templateFn: (props: string[]) => string;
     try {
-      templFn = require(templatePath).default;
-      //   console.log("Loading template", templFn);
-      typeScriptClass = templFn(classProperties);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      templateFn = require(templatePath).default;
+      typeScriptClass = templateFn(classProperties);
     } catch (error) {
-      console.error("Couldnt' load or use template", error);
+      console.error("Couldn't load or use template", error);
     }
     if (debug) {
       console.log(`🕐 templating complete: ${new Date().getTime() - time1}ms`);

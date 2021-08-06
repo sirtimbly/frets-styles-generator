@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { BuildConfig } from "estrella";
-import { build, glob, cliopts, scandir, file, watch, basename } from "estrella";
-import { spawnSync, spawn, exec, execSync } from "child_process";
+import { build, glob, cliopts } from "estrella";
+import { spawn } from "child_process";
 import Rimraf from "rimraf";
-import cpx from "cpx";
+import * as cpx from "cpx";
 const testOutputDir = "build/_tests/";
 
 /*
@@ -48,7 +48,7 @@ async function startTests() {
     console.error(`[TEST ERROR]: ${data}`);
   });
 
-  nodeTest.on("close", (code) => {
+  nodeTest.on("close", () => {
     console.log(`🎸 Test run finished in ${new Date().getTime() - time}ms`);
     if (!cliopts.watch) {
       process.exit();

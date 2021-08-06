@@ -27,6 +27,7 @@ __export(exports, {
 });
 var fs = __toModule(require("fs"));
 var import_processFile = __toModule(require("./processFile"));
+var import_estrella = __toModule(require("estrella"));
 const importer = require("postcss-import");
 const program = require("commander");
 const walk = require("walk");
@@ -74,7 +75,7 @@ walker.on("file", (root, stat, next) => {
       const inputFile = stat.name.split(".")[0];
       (0, import_processFile.default)({
         input: root + "/" + stat.name,
-        output: root + `/${inputFile.split()}-styles.ts`,
+        output: root + `/${(0, import_estrella.basename)(inputFile, ".css")}-styles.ts`,
         templatePath: cliTemplatePath,
         customPlugins,
         inputPath,

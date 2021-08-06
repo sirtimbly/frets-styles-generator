@@ -1,11 +1,10 @@
-import assert from "assert";
-import { Baretest } from "./typings/baretest";
-
-import { setup } from "./helpers/setup";
-import postcss from "postcss";
+import * as assert from "assert";
 import * as fs from "fs";
+import * as path from "path";
+
+import { Baretest } from "./typings/baretest";
+import postcss from "postcss";
 import { GetResultProcessor } from "../src/processFile";
-import path from "path";
 import importer from "postcss-import";
 
 const file = "tailwind.css";
