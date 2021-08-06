@@ -1,5 +1,5 @@
 {
-  "extends": "./config/tsconfig.strict", // also available: "./config/tsconfig.strict"
+  "extends": "./config/tsconfig.strict.json", // also available: "./config/tsconfig.strict"
   "compilerOptions": {
     "target": "es2017",
     "outDir": "build/main",
@@ -15,23 +15,14 @@
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": false,
     "noImplicitAny": false,
-    "lib" : [
-      "es2017",
-      "dom"
-    ],
-    "types" : [
-      "node"
-    ],
+    "lib": ["es2017", "dom"],
+    "types": ["node"],
     "baseUrl": ".", // required for "paths"
     "paths": {
       "typescript-starter": ["src/index.ts"] // write tests without relative paths
     }
   },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules/**"
-  ],
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["node_modules/**"],
   "compileOnSave": false
 }

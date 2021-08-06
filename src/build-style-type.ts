@@ -2,12 +2,13 @@
 
 import * as fs from "fs";
 import readFile from "./processFile";
-const importer = require("postcss-import");
-const program = require("commander");
-const walk = require("walk");
-const normalize = require("normalize-path");
+import { Plugin } from "postcss";
+import { basename } from "estrella";
+import importer = require("postcss-import");
+import program = require("commander");
+import walk = require("walk");
+import normalize = require("normalize-path");
 
-// console.log(protectedGetters.join(", "));
 program
   .version("0.2.0")
   .usage("inputPath [options]")
@@ -50,7 +51,7 @@ const walker = walk.walk(inputPath, {
   filters: ["node_modules"],
 });
 // const customConfigObject: { path?: string[] } = {};
-let customPlugins: any[] = [];
+let customPlugins: Plugin[] = [];
 let postCssConfigPath = process.cwd() + "/postcss.config.js";
 
 if (!fs.existsSync(postCssConfigPath)) {
@@ -58,6 +59,7 @@ if (!fs.existsSync(postCssConfigPath)) {
 }
 customPlugins = [
   importer({ root: inputPath }),
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   ...require(postCssConfigPath).plugins,
 ];
 
@@ -77,14 +79,14 @@ customPlugins = customPlugins.filter((p) => {
 
 // console.log(customPlugins);
 
-walker.on("file", (root: any, stat: any, next: () => any) => {
+walker.on("file", (root, stat, next) => {
   if (!stat.isDirectory()) {
     const extension = stat.name.split(".")[1];
     if (extension === "css") {
       const inputFile = stat.name.split(".")[0];
       readFile({
         input: root + "/" + stat.name,
-        output: root + `/${inputFile.split()}-styles.ts`,
+        output: root + `/${basename(inputFile, ".css")}-styles.ts`,
         templatePath: cliTemplatePath,
         customPlugins,
         inputPath,
