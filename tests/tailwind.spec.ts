@@ -1,0 +1,48 @@
+import assert from "assert";
+import { Baretest } from "./typings/baretest";
+
+import { setup } from "./helpers/setup";
+import postcss from "postcss";
+import * as fs from "fs";
+import { GetResultProcessor } from "../src/processFile";
+import path from "path";
+import importer from "postcss-import";
+
+const file = "tailwind.css";
+const directory = path.join(process.cwd(), "build/_tests/");
+const output = path.join(process.cwd(), "build/_tests/tailwind-styles.ts");
+export default async (test: Baretest): Promise<void> => {
+  const customPlugins = [importer({ root: directory })];
+  test("create tailwind standard file for react", async () => {
+    await postcss(customPlugins)
+      .process(fs.readFileSync(directory + file), {
+        from: directory,
+      })
+      .then(
+        GetResultProcessor({
+          input: file,
+          inputPath: directory,
+          output: output,
+          templatePath: path.join(
+            process.cwd(),
+            "build/main/templates/react.js"
+          ),
+          customPlugins: [],
+          overwrite: true,
+        })
+      )
+      .catch((err: NodeJS.ErrnoException) => {
+        if (err) {
+          console.error("Couldn't process file: " + file, err);
+          return;
+        }
+      });
+
+    console.log("entering read and verify step");
+    const expectedOutput = fs.readFileSync(
+      path.join(process.cwd(), "build/_tests/tailwind-styles.txt")
+    );
+    const result = fs.readFileSync(output);
+    assert.strictEqual(result.equals(expectedOutput), true);
+  });
+};

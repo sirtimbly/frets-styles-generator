@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 var __create = Object.create;
 var __defProp = Object.defineProperty;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
@@ -22,12 +23,32 @@ var __toModule = (module2) => {
 };
 __markAsModule(exports);
 __export(exports, {
-  GetResultProcessor: () => import_processFile.GetResultProcessor,
-  readFile: () => import_processFile.default
+  subdir: () => subdir
 });
-var import_processFile = __toModule(require("./processFile"));
+var import_path = __toModule(require("path"));
+var import_estrella = __toModule(require("estrella"));
+function subdir(name) {
+  return import_path.default.join(process.cwd(), name);
+}
+const [opts] = import_estrella.cliopts.parse(["p, production", "Creates a production build."], ["o, outdir", "Output directory, defaults to `build/`"], ["s, sourcedir", "Output directory, defaults to `src/`"]);
+const src = subdir(opts.sourcedir || "src/");
+const output = subdir(opts.outdir || "build/main/");
+const staticDir = subdir("static/");
+const cssFilter = /\.css$/i;
+const staticFilter = /\.html$/i;
+const buildOpts = {
+  entry: (0, import_estrella.glob)(src + "**/*.ts"),
+  outdir: output,
+  bundle: false,
+  format: "cjs",
+  platform: "node",
+  ...opts.production ? {debug: false, sourcemap: false, minify: false} : {debug: true, sourcemap: true, minify: false}
+};
+(async () => {
+  console.log("\u{1F3B8} Build the JS");
+  return (0, import_estrella.build)(buildOpts);
+})();
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
-  GetResultProcessor,
-  readFile
+  subdir
 });
