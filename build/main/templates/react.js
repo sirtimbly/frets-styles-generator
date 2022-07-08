@@ -22,7 +22,7 @@ type hFn<T> = (
 ) => ReactElement;
 
 export type BaseStyleArgs<T> = Array<
-  ReactElement | string | AllHTMLAttributes<T> | Props<T> | Boolean
+  ReactNode | string | AllHTMLAttributes<T> | Props<T> | Boolean
 >
 export const e = React.createElement;
 
