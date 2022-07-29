@@ -45,7 +45,8 @@ export const GetResultProcessor = (opts: TOpts): TProcessor => {
 
   let isWatching = false;
 
-  const usedClasses: string[] = [];
+  const usedPropertyNames: string[] = [];
+  const usedClassStrings: string[] = [];
   const classProperties: string[] = [];
 
   const time1 = new Date().getTime();
@@ -58,7 +59,7 @@ export const GetResultProcessor = (opts: TOpts): TProcessor => {
         ) {
           const splitOnCommas = rule.selector.split(/,\s/);
           splitOnCommas.forEach((x: string) => {
-            let dotLess = x.substr(1);
+            let dotLess = x.substring(1);
             let className = camelcase(dotLess);
             if (
               className.includes(".") ||
@@ -72,10 +73,11 @@ export const GetResultProcessor = (opts: TOpts): TProcessor => {
             if (protectedGetters.indexOf(className) >= 0) {
               className = "_" + className;
             }
-            if (usedClasses.indexOf(className) >= 0) {
+            if (usedPropertyNames.indexOf(className) >= 0) {
               return;
             }
-            usedClasses.push(className);
+            usedClassStrings.push(dotLess);
+            usedPropertyNames.push(className);
             classProperties.push(
               `get ${className}() { return this.add("${dotLess}"); }`
             );

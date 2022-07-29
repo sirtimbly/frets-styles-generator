@@ -14,7 +14,8 @@ import React, {
   ReactNode,
   ReactElement,
   AllHTMLAttributes,
-  Props
+  Props,
+  PropsWithChildren,
 } from "react";
 
 type hFn<T> = (
@@ -22,7 +23,7 @@ type hFn<T> = (
 ) => ReactElement;
 
 export type BaseStyleArgs<T> = Array<
-  ReactNode | string | AllHTMLAttributes<T> | Props<T> | Boolean
+  ReactNode | string | AllHTMLAttributes<T> | Props<T> | boolean
 >
 export const e = React.createElement;
 
@@ -32,6 +33,7 @@ export default class BaseStyles {
   public overrideDisplayInherit: boolean;
   public conditions: boolean[] = [];
   public classProps: any = {};
+  private writeConditionIndex = 0
   private readConditionIndex: number = 0;
   private classObjectMode: boolean = false;
 
@@ -43,7 +45,23 @@ export default class BaseStyles {
     }
     return this
   }
+  public when = (condition: boolean): BaseStyles => {
+    this.classObjectMode = true
+    this.conditions[this.writeConditionIndex] = condition
+    return this
+  }
 
+  public andWhen = (condition: boolean): BaseStyles => {
+    this.classObjectMode = true
+    this.writeConditionIndex++
+    this.readConditionIndex++
+    return this.when(condition)
+  }
+
+  public otherwise = (): BaseStyles => {
+    this.classObjectMode = true
+    return this.andWhen(!this.conditions[this.readConditionIndex])
+  }
 
   // The first element in the arguments might be a attributes object, or they might all be Nodes
   public h = <T>(
@@ -82,6 +100,11 @@ export default class BaseStyles {
       ...(children.filter(Boolean) as Array<ReactElement>)
     );
   };
+
+  public fc: React.FC<PropsWithChildren<AllHTMLAttributes<unknown>>> = ({
+    children,
+    ...rest
+  }) => this.h(rest, children)
 
   public toObj = () => {
     if (!this.classObjectMode) {
@@ -160,10 +183,12 @@ export default class BaseStyles {
   }
 
   public toString = (): string => {
-    if (this.classObjectMode) {
-      throw Error(
-        "You can't build a selector string when you are calling conditional methods"
-      );
+    if (this.classObjectMode && this.classProps) {
+      for (const [key, value] of Object.entries(this.classProps)) {
+        if (value) {
+          this.chain.push(key)
+        }
+      }
     }
     if (this.chain.length === 1) {
       return this.chain[0] || "div";
