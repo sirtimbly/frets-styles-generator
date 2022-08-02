@@ -11,8 +11,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - run: npm ci
-      - run: npm run build
+      - run: yarn
+      - run: yarn build
 
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v2
