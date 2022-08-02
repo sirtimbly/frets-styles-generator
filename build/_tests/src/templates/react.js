@@ -11,11 +11,12 @@ __export(exports, {
 function react_default(classProperties) {
   return `
 import React, {
-  ReactNode,
-  ReactElement,
   AllHTMLAttributes,
+  MouseEventHandler,
   Props,
   PropsWithChildren,
+  ReactElement,
+  ReactNode,
 } from "react";
 
 type hFn<T> = (
@@ -29,8 +30,8 @@ export const e = React.createElement;
 
 export default class BaseStyles {
   public chain: string[];
-  public overrideDisplayNone: boolean;
-  public overrideDisplayInherit: boolean;
+  public overrideDisplayNone: boolean = false;
+  public overrideDisplayInherit: boolean = false;
   public conditions: boolean[] = [];
   public classProps: any = {};
   private writeConditionIndex = 0
@@ -266,7 +267,7 @@ export default class BaseStyles {
           !(children[0] as ReactElement).type
       )
 
-      let newClick
+      let newClick: MouseEventHandler<T> | (() => void) | undefined
       if (
         firstChildIsProps &&
         (firstChild as React.AllHTMLAttributes<T>).onClick

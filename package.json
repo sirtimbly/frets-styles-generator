@@ -113,7 +113,7 @@
   },
   "dependencies": {
     "camel-case": "^3.0.0",
-    "commander": "^2.19.0",
+    "commander": "^9.4.0",
     "normalize-path": "^3.0.0",
     "postcss": "^8.3.6",
     "postcss-import": "^13.0.0",
