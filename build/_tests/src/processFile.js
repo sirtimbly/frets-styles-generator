@@ -27,7 +27,7 @@ __export(exports, {
 });
 var fs = __toModule(require("fs"));
 var import_postcss = __toModule(require("postcss"));
-const camelcase = require("camel-case");
+var import_camel_case = __toModule(require("camel-case"));
 const protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf("")).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
 async function readFile(opts) {
   const {customPlugins, inputPath, input} = opts;
@@ -59,7 +59,7 @@ const GetResultProcessor = (opts) => {
           const splitOnCommas = rule.selector.split(/,\s/);
           splitOnCommas.forEach((x) => {
             let dotLess = x.substring(1);
-            let className = camelcase(dotLess);
+            let className = (0, import_camel_case.camelCase)(dotLess);
             if (className.includes(".") || dotLess.includes(">") || dotLess.includes("+")) {
               return;
             }

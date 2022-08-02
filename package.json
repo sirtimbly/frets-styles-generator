@@ -112,11 +112,11 @@
     ]
   },
   "dependencies": {
-    "camel-case": "^3.0.0",
+    "camel-case": "^4.1.2",
     "commander": "^9.4.0",
     "normalize-path": "^3.0.0",
     "postcss": "^8.4.14",
-    "postcss-import": "^13.0.0",
+    "postcss-import": "^14.1.0",
     "tslib": "^2.4.0",
     "walk": "^2.3.15"
   }

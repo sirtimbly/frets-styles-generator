@@ -2,7 +2,7 @@ import * as fs from "fs";
 // const readFileAsync = fs.promises.readFile;
 // const importer = require("postcss-import");
 import postcss, { Result, Rule, AcceptedPlugin } from "postcss";
-import camelcase = require("camel-case");
+import { camelCase } from "camel-case";
 const protectedGetters = Object.getOwnPropertyNames(
   Object.getPrototypeOf("")
 ).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
@@ -60,7 +60,7 @@ export const GetResultProcessor = (opts: TOpts): TProcessor => {
           const splitOnCommas = rule.selector.split(/,\s/);
           splitOnCommas.forEach((x: string) => {
             let dotLess = x.substring(1);
-            let className = camelcase(dotLess);
+            let className = camelCase(dotLess);
             if (
               className.includes(".") ||
               dotLess.includes(">") ||
