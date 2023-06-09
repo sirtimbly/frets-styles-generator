@@ -16,7 +16,7 @@
     "build:main": "npm run build:scripts && node build/_scripts/dev.js -p",
     "lint": "prettier --check 'src/**/*.{js,ts,tsx,jsx}' && eslint --quiet --cache 'src/**/*.{js,ts,tsx}'",
     "lint:fix": "prettier --write 'src/**/*.{js,ts,tsx,jsx}' && eslint --quiet --cache --fix 'src/**/*.{js,ts,tsx}'",
-    "unit": "npm run build:scripts && node build/_scripts/test.js",
+    "unit": "npm run build:scripts && npm run build && node build/_scripts/test.js",
     "test": "npm run lint && npm run unit",
     "watch": "node build/_scripts/test.js -w",
     "changelog": "standard-version",
@@ -43,11 +43,12 @@
     "node": ">=12.0"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/commit-analyzer": "^9.0.2",
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "@types/cpx": "^1.5.2",
-    "@types/node": "~14.0.0",
+    "@types/node": "~18.16.0",
     "@types/walk": "^2.3.1",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
@@ -63,7 +64,7 @@
     "npm-scripts-info": "^0.3.9",
     "prettier": "2.7.1",
     "rimraf": "^3.0.2",
-    "semantic-release": "^19.0.3",
+    "semantic-release": "^21.0.3",
     "sleep-ms": "^2.0.1",
     "standard-version": "^9.5.0",
     "trash-cli": "^5.0.0",
@@ -88,7 +89,9 @@
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      "@semantic-release/npm"
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/github"
     ]
   },
   "dependencies": {
