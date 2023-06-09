@@ -3,7 +3,7 @@ export default function (classProperties: string[]): string {
 import React, {
   AllHTMLAttributes,
   MouseEventHandler,
-  Props,
+  PropsWithRef,
   PropsWithChildren,
   ReactElement,
   ReactNode,
@@ -14,19 +14,19 @@ type hFn<T> = (
 ) => ReactElement;
 
 export type BaseStyleArgs<T> = Array<
-  ReactNode | string | AllHTMLAttributes<T> | Props<T> | boolean
+  ReactNode | string | AllHTMLAttributes<T> | PropsWithRef<T> | boolean
 >
 export const e = React.createElement;
 
 export default class BaseStyles {
   public chain: string[];
-  public overrideDisplayNone: boolean = false;
-  public overrideDisplayInherit: boolean = false;
+  public overrideDisplayNone = false;
+  public overrideDisplayInherit = false;
   public conditions: boolean[] = [];
   public classProps: any = {};
   private writeConditionIndex = 0
-  private readConditionIndex: number = 0;
-  private classObjectMode: boolean = false;
+  private readConditionIndex = 0;
+  private classObjectMode = false;
 
    constructor(selector: string) {
     this.chain = new Array<string>()
@@ -173,7 +173,7 @@ export default class BaseStyles {
     return this.chain.join('.')
   }
 
-  public toString = (clear: boolean = false): string => {
+  public toString = (clear = false): string => {
     if (this.classObjectMode && this.classProps) {
       for (const [key, value] of Object.entries(this.classProps)) {
         if (value) {
@@ -188,6 +188,11 @@ export default class BaseStyles {
     this.chain = clear ? [this.chain[0]] : this.chain;
     return output;
   };
+
+  public clear = (): BaseStyles => {
+    this.chain = [];
+    return this;
+  }
 
   public $ = (className: string): BaseStyles => {
     return this.add(className);

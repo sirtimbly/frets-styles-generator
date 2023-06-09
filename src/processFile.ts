@@ -5,7 +5,28 @@ import postcss, { Result, Rule, AcceptedPlugin } from "postcss";
 import { camelCase } from "camel-case";
 const protectedGetters = Object.getOwnPropertyNames(
   Object.getPrototypeOf("")
-).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
+).concat([
+  "$",
+  "a",
+  "article",
+  "aside",
+  "button",
+  "div",
+  "div",
+  "header",
+  "img",
+  "input",
+  "label",
+  "li",
+  "nav",
+  "ol",
+  "p",
+  "section",
+  "select",
+  "span",
+  "textarea",
+  "ul",
+]);
 
 export type TOpts = {
   input: string;

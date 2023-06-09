@@ -70,37 +70,17 @@
     "typescript": "^4.7.4"
   },
   "keywords": [
-    "async",
-    "ava",
-    "await",
-    "boilerplate",
-    "conventional-changelog",
-    "ES6",
-    "ES7",
-    "library",
-    "javascript-modules",
-    "node",
-    "nyc",
-    "rollup",
-    "starter",
-    "template",
-    "tree-shaking",
-    "tslint",
-    "typedoc",
+    "styles",
+    "classnames",
     "typescript",
-    "typings"
+    "tailwind",
+    "generator",
+    "dev-tool"
   ],
   "nyc": {
     "exclude": [
       "**/*.spec.js",
       "build/browser/**"
-    ]
-  },
-  "ava": {
-    "sources": [
-      "test/**/*.js",
-      "build/**/*.js",
-      "!build/**/*.spec.js"
     ]
   },
   "release": {
