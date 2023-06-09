@@ -194,7 +194,9 @@ export default class BaseStyles {
     if (this.chain.length === 1) {
       return this.chain[0] || "div";
     }
-    return this.chain.slice(1).join(" ");
+    const output = this.chain.slice(1).join(" ");
+    this.chain = [this.chain[0]];
+    return output;
   };
 
   public $ = (className: string): BaseStyles => {

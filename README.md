@@ -21,7 +21,7 @@ And here is more recommended starter packages with common postcss plugins, and p
 
 ## Usage
 
-`npx frets-styles-generator [input.css] [output.css] -r` (-r flag uses the react template)
+`npx frets-styles-generator [input-dir] --react` (--react flag uses the react template for output)
 
 The first argument you pass to the program will be the directory to scan for CSS files. It defaults to "./src" if you leave the argument out. Each CSS file that is found will be run through postcss (utilizing the [postcss-import](https://github.com/postcss/postcss-import) plugin by default) and then turned into a .ts file like [orginialFilename-styles.ts] based on the template specified. The default template is for [maquette](https://github.com/AFASSoftware/maquette) hyperscript functions.
 
@@ -103,9 +103,7 @@ const trackingClicker = $.button.beforeClick((e) => {
 The module when generated exports several members including an '$onClick` higher order function that helps with wrapping click event functions around the basestyle class instance you provide to the following function. This style is a more expressive way to
 
 ```ts
-$.div.h(
-  $onClick( () => setMyValue('') )( $LinkBtn.secondary, 'Clear' ),
-)
+$.div.h($onClick(() => setMyValue(""))($LinkBtn.secondary, "Clear"));
 ```
 
 ### $onFormSubmit()
@@ -113,11 +111,11 @@ $.div.h(
 Similar to the $onClick function this will allow you to wrap a set of elements in a `<form>` with a provided onSubmit handler with `event.preventDefault()` called first.
 
 ```ts
-$formOnSubmit( () => setShowList(true) ).flex.flexCol.itemsStretch.h(
-          TextInput(registerField('Username')),
-          TextInput(registerField('Password')),
-          $Btn.primary.mt_2.h('Log In')
-        )
+$formOnSubmit(() => setShowList(true)).flex.flexCol.itemsStretch.h(
+  TextInput(registerField("Username")),
+  TextInput(registerField("Password")),
+  $Btn.primary.mt_2.h("Log In")
+);
 ```
 
 ## Purging unused CSS
