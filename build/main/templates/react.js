@@ -183,7 +183,7 @@ export default class BaseStyles {
     return this.chain.join('.')
   }
 
-  public toString = (): string => {
+  public toString = (clear: boolean = false): string => {
     if (this.classObjectMode && this.classProps) {
       for (const [key, value] of Object.entries(this.classProps)) {
         if (value) {
@@ -195,7 +195,7 @@ export default class BaseStyles {
       return this.chain[0] || "div";
     }
     const output = this.chain.slice(1).join(" ");
-    this.chain = [this.chain[0]];
+    this.chain = clear ? [this.chain[0]] : this.chain;
     return output;
   };
 
