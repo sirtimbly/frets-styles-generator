@@ -3719,7 +3719,7 @@ get contentH2() { return this.add("content h2"); }
 export const $$ = (selector?: string): BaseStyles => {
   return new BaseStyles('' + selector || '')
 }
-export function $onClick(fn: React.MouseEventHandler<T>) {
+export function $onClick<T>(fn: React.MouseEventHandler<T>) {
   return (child: BaseStyles, ...children: BaseStyleArgs<T>) => {
     const firstChild = children[0]
     const firstChildIsProps = Boolean(
