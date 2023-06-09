@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from "react";
 
-type hFn<T> = (
+export type hFn<T> = (
   children: Array<ReactNode | AllHTMLAttributes<T>>
 ) => ReactElement;
 
@@ -299,7 +299,7 @@ export default class BaseStyles {
 export const $$ = (selector?: string): BaseStyles => {
   return new BaseStyles('' + selector || '')
 }
-export function $onClick<T>(fn: React.MouseEventHandler<T>) {
+export function $onClick(fn: React.MouseEventHandler<T>) {
   return (child: BaseStyles, ...children: BaseStyleArgs<T>) => {
     const firstChild = children[0]
     const firstChildIsProps = Boolean(
@@ -317,7 +317,7 @@ export function $onClick<T>(fn: React.MouseEventHandler<T>) {
   }
 }
 
-export function $formOnSubmit<T>(fn: (e?: React.FormEvent<any>) => void) {
+export function $formOnSubmit(fn: (e?: React.FormEvent<any>) => void) {
   return $$('form').injectProps({
     onSubmit: (e) => {
       e.preventDefault()
