@@ -28,7 +28,28 @@ __export(exports, {
 var fs = __toModule(require("fs"));
 var import_postcss = __toModule(require("postcss"));
 var import_camel_case = __toModule(require("camel-case"));
-const protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf("")).concat(["input", "button", "div", "select", "textarea", "label", "div", "$"]);
+const protectedGetters = Object.getOwnPropertyNames(Object.getPrototypeOf("")).concat([
+  "$",
+  "a",
+  "article",
+  "aside",
+  "button",
+  "div",
+  "div",
+  "header",
+  "img",
+  "input",
+  "label",
+  "li",
+  "nav",
+  "ol",
+  "p",
+  "section",
+  "select",
+  "span",
+  "textarea",
+  "ul"
+]);
 async function readFile(opts) {
   const {customPlugins, inputPath, input} = opts;
   console.log("reading " + input);
