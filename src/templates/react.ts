@@ -253,7 +253,7 @@ export default class BaseStyles {
     return this
   }
 
-  public beforeClick<T>(handler: <T>(e: React.MouseEvent<T>) => void) {
+  public beforeClick(handler: <T>(e: React.MouseEvent<T>) => void) {
     const oldFn = this.h
     this.h = <T>(...children: BaseStyleArgs<T>) => {
       const firstChild = children[0]

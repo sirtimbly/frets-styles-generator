@@ -1,0 +1,2 @@
+- [ ] add a test: try to compile the final ts file with typescript in strict mode - fail on any warnings
+- [ ] add a test: bootstrap utility css
