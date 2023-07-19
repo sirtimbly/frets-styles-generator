@@ -3643,8 +3643,6 @@ get easeInOut() { return this.add("ease-in-out"); }
 get rowX() { return this.add("row-x"); }
 get outerGrid() { return this.add("outer-grid"); }
 get content() { return this.add("content"); }
-get contentH1() { return this.add("content h1"); }
-get contentH2() { return this.add("content h2"); }
 
 
   public injectProps<T>(props: AllHTMLAttributes<T>) {

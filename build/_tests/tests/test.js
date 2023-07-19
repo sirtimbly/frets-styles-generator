@@ -18,8 +18,10 @@ var __toModule = (module2) => {
 };
 var import_baretest = __toModule(require("baretest"));
 var import_tailwind = __toModule(require("./tailwind.spec"));
+var import_gds_bootstrap = __toModule(require("./gds-bootstrap.spec"));
 const test = (0, import_baretest.default)("Processing Library");
-(0, import_tailwind.default)(test);
+(0, import_tailwind.configTailwindTest)(test);
+(0, import_gds_bootstrap.configGdsTest)(test);
 !async function() {
   await test.run();
   process.exit();

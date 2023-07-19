@@ -7,12 +7,12 @@ import postcss from "postcss";
 import { GetResultProcessor } from "../src/processFile";
 import importer from "postcss-import";
 
-const file = "tailwind.css";
+const file = "gds-bootstrap.css";
 const directory = path.join(process.cwd(), "build/_tests/");
-const output = path.join(process.cwd(), "build/_tests/tailwind-styles.ts");
-export const configTailwindTest = async (test: Baretest): Promise<void> => {
+const output = path.join(process.cwd(), "build/_tests/gds-bootstrap-styles.ts");
+export const configGdsTest = async (test: Baretest): Promise<void> => {
   const customPlugins = [importer({ root: directory })];
-  test("create tailwind standard file for react", async () => {
+  test("create gds-bootstrap standard file for react", async () => {
     await postcss(customPlugins)
       .process(fs.readFileSync(directory + file), {
         from: directory,
@@ -39,7 +39,7 @@ export const configTailwindTest = async (test: Baretest): Promise<void> => {
 
     console.log("entering read and verify step");
     const expectedOutput = fs.readFileSync(
-      path.join(process.cwd(), "build/_tests/tailwind-styles.txt")
+      path.join(process.cwd(), "build/_tests/gds-bootstrap.txt")
     );
     const result = fs.readFileSync(output);
     assert.strictEqual(result.equals(expectedOutput), true);

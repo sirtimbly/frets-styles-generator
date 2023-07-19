@@ -22,7 +22,7 @@ var __toModule = (module2) => {
 };
 __markAsModule(exports);
 __export(exports, {
-  configTailwindTest: () => configTailwindTest
+  configGdsTest: () => configGdsTest
 });
 var assert = __toModule(require("assert"));
 var fs = __toModule(require("fs"));
@@ -30,12 +30,12 @@ var path = __toModule(require("path"));
 var import_postcss = __toModule(require("postcss"));
 var import_processFile = __toModule(require("../src/processFile"));
 var import_postcss_import = __toModule(require("postcss-import"));
-const file = "tailwind.css";
+const file = "gds-bootstrap.css";
 const directory = path.join(process.cwd(), "build/_tests/");
-const output = path.join(process.cwd(), "build/_tests/tailwind-styles.ts");
-const configTailwindTest = async (test) => {
+const output = path.join(process.cwd(), "build/_tests/gds-bootstrap-styles.ts");
+const configGdsTest = async (test) => {
   const customPlugins = [(0, import_postcss_import.default)({root: directory})];
-  test("create tailwind standard file for react", async () => {
+  test("create gds-bootstrap standard file for react", async () => {
     await (0, import_postcss.default)(customPlugins).process(fs.readFileSync(directory + file), {
       from: directory
     }).then((0, import_processFile.GetResultProcessor)({
@@ -52,9 +52,9 @@ const configTailwindTest = async (test) => {
       }
     });
     console.log("entering read and verify step");
-    const expectedOutput = fs.readFileSync(path.join(process.cwd(), "build/_tests/tailwind-styles.txt"));
+    const expectedOutput = fs.readFileSync(path.join(process.cwd(), "build/_tests/gds-bootstrap.txt"));
     const result = fs.readFileSync(output);
     assert.strictEqual(result.equals(expectedOutput), true);
   });
 };
-//# sourceMappingURL=tailwind.spec.js.map
+//# sourceMappingURL=gds-bootstrap.spec.js.map
