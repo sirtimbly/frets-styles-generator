@@ -1,4 +1,4 @@
-lockfileVersion: '6.1'
+lockfileVersion: '6.0'
 
 settings:
   autoInstallPeers: true
@@ -11,6 +11,9 @@ dependencies:
   commander:
     specifier: ^9.4.0
     version: 9.4.0
+  estrella:
+    specifier: ^1.4.1
+    version: 1.4.1
   normalize-path:
     specifier: ^3.0.0
     version: 3.0.0
@@ -76,9 +79,6 @@ devDependencies:
   eslint-plugin-prettier:
     specifier: ^4.2.1
     version: 4.2.1(eslint-config-prettier@8.5.0)(eslint@7.31.0)(prettier@2.7.1)
-  estrella:
-    specifier: ^1.4.1
-    version: 1.4.1
   npm-scripts-info:
     specifier: ^0.3.9
     version: 0.3.9
@@ -1712,7 +1712,7 @@ packages:
     resolution: {integrity: sha512-iaiZZ9vUF5wJV8ob1tl+5aJTrwDczlvGP0JoMmnpC2B0ppiMCu8n8gmy5ZTGl5bcG081XBVn+U+jP+mPFm5T5Q==}
     hasBin: true
     requiresBuild: true
-    dev: true
+    dev: false
 
   /esbuild@0.12.18:
     resolution: {integrity: sha512-arWhBQSy+oiBAp8VRRCFvAU+3jyf0gGacABLO3haMHboXCDjzq4WUqyQklst2XRuFS8MXgap+9uvODqj9Iygpg==}
@@ -1994,7 +1994,7 @@ packages:
       esbuild: 0.11.23
     optionalDependencies:
       fsevents: 2.3.2
-    dev: true
+    dev: false
 
   /esutils@2.0.3:
     resolution: {integrity: sha512-kVscqXk4OCp68SZ0dkgEKVi6/8ij300KBWTJq32P/dYeWTSwK41WyTxalN1eRmA5Z9UU/LX9D7FWSmV9SAYx6g==}
@@ -2322,7 +2322,7 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
-    dev: true
+    dev: false
     optional: true
 
   /function-bind@1.1.1:

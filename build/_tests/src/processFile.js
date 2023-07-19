@@ -77,15 +77,20 @@ const GetResultProcessor = (opts) => {
     if (result && result.root) {
       result.root.walkRules((rule) => {
         if (rule.selector.startsWith(".") && (rule.selector.startsWith(".hover") || !rule.selector.includes(":"))) {
-          const splitOnCommas = rule.selector.split(/,\s/);
+          const splitOnCommas = rule.selector.split(/,\s|,/);
           splitOnCommas.forEach((x) => {
-            let dotLess = x.substring(1);
-            let className = (0, import_camel_case.camelCase)(dotLess);
-            if (className.includes(".") || dotLess.includes(">") || dotLess.includes("+")) {
+            let dotLess = x[0] === " " ? x.substring(1) : x;
+            dotLess = dotLess[0] === "." ? dotLess.substring(1) : dotLess;
+            if (dotLess.includes(" ") || dotLess.includes(">")) {
               return;
             }
-            className = className.replace(/Hover$/, "");
-            dotLess = dotLess.replace(/:hover$/, "");
+            let className = (0, import_camel_case.camelCase)(dotLess);
+            if (className.includes(".")) {
+              return;
+            }
+            className = className.replace(/Hover$/g, "");
+            dotLess = dotLess.replace(/:hover$/g, "");
+            dotLess = dotLess.replace(/(?<!\\)\./g, " ");
             if (protectedGetters.indexOf(className) >= 0) {
               className = "_" + className;
             }

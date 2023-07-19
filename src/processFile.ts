@@ -78,22 +78,34 @@ export const GetResultProcessor = (opts: TOpts): TProcessor => {
           rule.selector.startsWith(".") &&
           (rule.selector.startsWith(".hover") || !rule.selector.includes(":"))
         ) {
-          const splitOnCommas = rule.selector.split(/,\s/);
+          //split a selector up along commas (with or without trailing spaces which might be removed by minifier)
+          const splitOnCommas = rule.selector.split(/,\s|,/);
           splitOnCommas.forEach((x: string) => {
-            let dotLess = x.substring(1);
-            let className = camelCase(dotLess);
+            //trim leading spaces
+            let dotLess = x[0] === " " ? x.substring(1) : x;
+            //trim leading periods
+            dotLess = dotLess[0] === "." ? dotLess.substring(1) : dotLess;
             if (
-              className.includes(".") ||
-              dotLess.includes(">") ||
-              dotLess.includes("+")
+              //no nested selectors, because you can't add nested elements
+              dotLess.includes(" ") ||
+              dotLess.includes(">")
             ) {
               return;
             }
-            className = className.replace(/Hover$/, "");
-            dotLess = dotLess.replace(/:hover$/, "");
+            let className = camelCase(dotLess);
+            if (className.includes(".")) {
+              return;
+            }
+            // we don't need hover classes, the browser takes care of it
+            className = className.replace(/Hover$/g, "");
+            dotLess = dotLess.replace(/:hover$/g, "");
+            //any period not preceded by an escape slash should be replaced with a space
+            dotLess = dotLess.replace(/(?<!\\)\./g, " ");
+            //no default tag name selectors
             if (protectedGetters.indexOf(className) >= 0) {
               className = "_" + className;
             }
+            //don't repeat previously seen classes... TODO: this is opposite of css order rule
             if (usedPropertyNames.indexOf(className) >= 0) {
               return;
             }
