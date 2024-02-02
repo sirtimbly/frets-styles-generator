@@ -1,2 +1,21 @@
 - [ ] add a test: try to compile the final ts file with typescript in strict mode - fail on any warnings
-- [ ] add a test: bootstrap utility css
+- [x] [ ] add a test: bootstrap utility css @done(23-07-20 13:52)
+- [ ] add support for a config file like frets.config.ts/js (how does Vite do this?)
+- [ ] let users run prettier/rome/eslint fix on the file that is generated
+- [ ] let users pull common supported utility libraries at build time ... just package.json?
+- [ ] unit test the CLI options
+- [ ] override template with a replacement for `$` and `$$()`
+- [ ] ability to inject a few more helper methods into the bottom of the template file but extend the default template
+- [ ] research feature from class variance authority (CVA) to copy?
+- [ ] glob based whitelist/blacklist of selectors
+- [ ] plugins for bundlers that replace calls to the class with actual string classnames (functional components in JSX will be interesting with this)
+- [ ] cli option for creating example components... what about recreating some of the https://ui.shadcn.com/ components like this for a demo?
+  - [ ] maybe a list of selectors to create as reusable components every time with globs or regexes
+- [ ] better docs about building apps and design systems
+- [ ] cli or eslint rule for sorting selectors in a particular order - or config with array of regexes?
+- [ ] cli for setting up purgecss
+- [ ] when using the react `.fc` member maybe we could create multiple nested react elements? why?
+
+- [ ] language server and JSX transformer (for tsconfig) that allows the same DX without bundling the runtime class being added, or that doesn't need purging? This should be a new JSX "pragma" but not an entire new DSL.
+  - [ ] optionally generate production-ready JSX on disk from the source or DSL...
+
